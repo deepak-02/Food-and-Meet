@@ -184,7 +184,9 @@ class SplashScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(30),
                             ),
                           ),
-                          onPressed: (){},
+                          onPressed: (){
+                            context.push('/register');
+                          },
                           child: Text(
                             "GET STARTED",
                             style: TextStyle(
@@ -205,7 +207,7 @@ class SplashScreen extends StatelessWidget {
                         height: 56,
                         child: OutlinedButton(
                           onPressed: () {
-                            context.go('/login');
+                            context.push('/login');
                           },
                           style: OutlinedButton.styleFrom(
                             // Transparent background

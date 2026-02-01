@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 
 import '../Screens/auth/login_screen.dart';
+import '../Screens/auth/register_screen.dart';
 import '../Screens/splash_screen.dart';
 
 
@@ -17,9 +18,9 @@ final GoRouter appRouter = GoRouter(
     ),
 
     // Future registration flow
-    // GoRoute(
-    //   path: '/register/1',
-    //   builder: (context, state) => const RegisterStep1(),
-    // ),
+    GoRoute(
+      path: '/register',
+      builder: (context, state) => const RegisterScreen(),
+    ),
   ],
 );
