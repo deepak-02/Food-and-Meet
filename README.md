@@ -16,9 +16,16 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 1. Splash screen: 
-<img width="1080" height="2400" alt="Screenshot_20260201_123911" src="https://github.com/user-attachments/assets/7062994f-3789-463b-94e1-be320c13ddba" />
+<img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/8a42dfb8-36b1-4d16-b64b-d35ffcbb8f46" />
 
 2. Login Screen (1):
    <img width="1080" height="2400" alt="Screenshot_20260201_150246" src="https://github.com/user-attachments/assets/7a280f4c-e859-4701-8bbc-1fdca01ec41f" />
+   
+3. Registration Screen 1:
+   <img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/b9c5e4f1-b528-4fb3-8be7-2c0b3730cea8" />
+
+4. Registration Screen 2:
+   <img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/d7aa6dda-0d71-4b95-bca7-903643efdfb5" />
+
 
    
