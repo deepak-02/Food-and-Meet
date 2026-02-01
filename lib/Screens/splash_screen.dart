@@ -157,19 +157,20 @@ class SplashScreen extends StatelessWidget {
       
                     const SizedBox(height: 20),
       
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _dot(active: true),
-                        _dot(),
-                        _dot(),
-                      ],
-                    ),
-      
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     _dot(active: true),
+                    //     // _dot(),
+                    //     // _dot(),
+                    //   ],
+                    // ),
+
                     Spacer(),
+
       
                     Padding(
-                      padding: const EdgeInsets.all(24),
+                      padding: const EdgeInsets.only(left: 24, right: 24, top: 10, bottom: 24),
                       child: SizedBox(
                         width: double.infinity,
                         height: 56,
@@ -182,28 +183,48 @@ class SplashScreen extends StatelessWidget {
                             ),
                           ),
                           onPressed: (){},
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Text(
-                                "NEXT",
-                                style: TextStyle(
-                                  color: Colors.black, // Text color
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.0, // Slight spacing for readability
-                                ),
-                              ),
-                              SizedBox(width: 8), // Space between text and icon
-                              Icon(
-                                Icons.arrow_forward,
-                                color: Colors.black, // Icon color
-                              ),
-                            ],
+                          child: Text(
+                            "GET STARTED",
+                            style: TextStyle(
+                              color: Colors.black, // White text
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.0,
+                            ),
                           ),
                         ),
                       ),
-                    )
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(left: 24, right: 24),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 56,
+                        child: OutlinedButton(
+                          onPressed: () {},
+                          style: OutlinedButton.styleFrom(
+                            // Transparent background
+                            backgroundColor: Colors.transparent,
+                            // White border to pop against dark background
+                            side: const BorderSide(color: AppTheme.accent, width: 2),
+                            shape: const StadiumBorder(),
+                          ),
+                          child: const Text(
+                            "LOGIN",
+                            style: TextStyle(
+                              color: AppTheme.accent, // White text
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+
+
       
                   ],
                 )
