@@ -16,4 +16,5 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 Splash screen - 1 : 
-<img width="1080" height="2400" alt="Screenshot_20260201_115703" src="https://github.com/user-attachments/assets/8dcaf5aa-2fc6-4693-80ea-5fd8040fd583" />
+<img width="1080" height="2400" alt="Screenshot_20260201_123911" src="https://github.com/user-attachments/assets/7062994f-3789-463b-94e1-be320c13ddba" />
+
