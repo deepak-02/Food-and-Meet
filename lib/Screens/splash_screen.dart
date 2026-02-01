@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
 import '../theme/app_theme.dart';
 
@@ -203,7 +204,9 @@ class SplashScreen extends StatelessWidget {
                         width: double.infinity,
                         height: 56,
                         child: OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.go('/login');
+                          },
                           style: OutlinedButton.styleFrom(
                             // Transparent background
                             backgroundColor: Colors.transparent,
