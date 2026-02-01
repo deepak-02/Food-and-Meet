@@ -24,22 +24,23 @@ class SplashScreen extends StatelessWidget {
             SafeArea(
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 16, bottom: 16),
-                          child: Text(
-                            "Skip",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600
-                              )
-                          ),
-                        )
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.end,
+                    //   children: [
+                    //     Padding(
+                    //       padding: const EdgeInsets.only(right: 16, bottom: 16),
+                    //       child: Text(
+                    //         "Skip",
+                    //           style: TextStyle(
+                    //               color: Colors.grey,
+                    //             fontSize: 16,
+                    //             fontWeight: FontWeight.w600
+                    //           )
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
+                    const SizedBox(height: 20,),
       
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 24),
