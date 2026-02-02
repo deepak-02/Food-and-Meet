@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DateOfBirthField extends StatelessWidget {
   final TextEditingController controller;
@@ -15,25 +16,20 @@ class DateOfBirthField extends StatelessWidget {
           "Date of Birth",
           style: TextStyle(
             color: Colors.white.withValues(alpha: 0.8),
-            fontSize: 16,
+            fontSize: 16.sp,
           ),
         ),
-        const SizedBox(height: 5),
+        SizedBox(height: 5.h),
 
         // 2. The Input Field
         Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-          ),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.r)),
           child: TextField(
             controller: controller,
             // PREVENT KEYBOARD: This makes it act like a button
             readOnly: true,
             onTap: () => _selectDate(context),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
+            style: TextStyle(color: Colors.white, fontSize: 16.sp),
             decoration: InputDecoration(
               filled: true,
               // Match your existing semi-transparent background
@@ -41,24 +37,24 @@ class DateOfBirthField extends StatelessWidget {
               hintText: "DD / MM / YYYY",
               hintStyle: TextStyle(
                 color: Colors.white.withValues(alpha: 0.4),
-                fontSize: 16,
+                fontSize: 16.sp,
               ),
               prefixIcon: Padding(
-                padding: const EdgeInsets.only(left: 12.0, right: 8.0),
+                padding: EdgeInsets.only(left: 12.0.w, right: 8.0.w),
                 child: Icon(
                   Icons.calendar_today_rounded, // Calendar Icon
                   color: Colors.white.withValues(alpha: 0.4),
-                  size: 20,
+                  size: 20.sp,
                 ),
               ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 borderSide: BorderSide.none,
               ),
-              contentPadding: const EdgeInsets.symmetric(vertical: 16),
+              contentPadding: EdgeInsets.symmetric(vertical: 16.h),
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -79,15 +75,17 @@ class DateOfBirthField extends StatelessWidget {
             colorScheme: ColorScheme.dark(
               primary: const Color(0xFF00E676), // Your Green Accent Color
               onPrimary: Colors.black, // Text color on the accent
-              surface: const Color(0xFF1C1C1E).withValues(alpha: 0.9), // Background with transparency
+              surface: const Color(
+                0xFF1C1C1E,
+              ).withValues(alpha: 0.9), // Background with transparency
               onSurface: Colors.white, // Text color
-            ),
-            dialogBackgroundColor: Colors.transparent, // Ensures rounded corners work
+            ), // Ensures rounded corners work
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
                 foregroundColor: const Color(0xFF00E676), // Button text color
               ),
             ),
+            dialogTheme: DialogThemeData(backgroundColor: Colors.transparent),
           ),
           child: child!,
         );
@@ -97,7 +95,8 @@ class DateOfBirthField extends StatelessWidget {
     if (picked != null) {
       // Format the date as DD/MM/YYYY
       // You can use the 'intl' package for better formatting if you have it
-      String formattedDate = "${picked.day.toString().padLeft(2, '0')} / ${picked.month.toString().padLeft(2, '0')} / ${picked.year}";
+      String formattedDate =
+          "${picked.day.toString().padLeft(2, '0')} / ${picked.month.toString().padLeft(2, '0')} / ${picked.year}";
       controller.text = formattedDate;
     }
   }

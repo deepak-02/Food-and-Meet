@@ -1,6 +1,7 @@
 import 'dart:io'; // Required for File
 import 'dart:ui'; // Required for PathMetric
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart'; // Required package
 
 class ImageUploadGrid extends StatefulWidget {
@@ -45,7 +46,10 @@ class _ImageUploadGridState extends State<ImageUploadGrid> {
             children: <Widget>[
               ListTile(
                 leading: const Icon(Icons.photo_library, color: Colors.white),
-                title: const Text('Gallery', style: TextStyle(color: Colors.white)),
+                title: const Text(
+                  'Gallery',
+                  style: TextStyle(color: Colors.white),
+                ),
                 onTap: () {
                   Navigator.of(context).pop();
                   _pickImage(index, ImageSource.gallery);
@@ -53,7 +57,10 @@ class _ImageUploadGridState extends State<ImageUploadGrid> {
               ),
               ListTile(
                 leading: const Icon(Icons.photo_camera, color: Colors.white),
-                title: const Text('Camera', style: TextStyle(color: Colors.white)),
+                title: const Text(
+                  'Camera',
+                  style: TextStyle(color: Colors.white),
+                ),
                 onTap: () {
                   Navigator.of(context).pop();
                   _pickImage(index, ImageSource.camera);
@@ -74,10 +81,10 @@ class _ImageUploadGridState extends State<ImageUploadGrid> {
           padding: EdgeInsets.zero,
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
+            crossAxisSpacing: 16.w,
+            mainAxisSpacing: 16.h,
             childAspectRatio: 1.0,
           ),
           itemCount: 4,
@@ -121,7 +128,7 @@ class _PhotoUploadCard extends StatelessWidget {
           // The Image itself
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
               image: DecorationImage(
                 image: FileImage(imageFile!),
                 fit: BoxFit.cover,
@@ -130,36 +137,36 @@ class _PhotoUploadCard extends StatelessWidget {
           ),
           // Remove Button (Top Right)
           Positioned(
-            top: 4,
-            right: 4,
+            top: 4.h,
+            right: 4.w,
             child: GestureDetector(
               onTap: onRemove,
               child: Container(
-                padding: const EdgeInsets.all(4),
+                padding: EdgeInsets.all(4.r),
                 decoration: const BoxDecoration(
                   color: Colors.black54,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.close, color: Colors.white, size: 16),
+                child: Icon(Icons.close, color: Colors.white, size: 18.sp),
               ),
             ),
           ),
           // "Main Photo" Label if needed over the image
           if (isMain)
             Positioned(
-              bottom: 8,
-              left: 0,
-              right: 0,
+              bottom: 8.h,
+              left: 0.w,
+              right: 0.w,
               child: Center(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.6),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
-                  child: const Text(
+                  child: Text(
                     "Main Photo",
-                    style: TextStyle(color: Colors.white, fontSize: 10),
+                    style: TextStyle(color: Colors.white, fontSize: 12.sp),
                   ),
                 ),
               ),
@@ -172,18 +179,18 @@ class _PhotoUploadCard extends StatelessWidget {
     return CustomPaint(
       foregroundPainter: _DashedBorderPainter(
         color: Colors.white.withValues(alpha: 0.3),
-        strokeWidth: 1.5,
-        gap: 6.0,
+        strokeWidth: 1.5.w,
+        gap: 6.0.w,
       ),
       child: Container(
         decoration: BoxDecoration(
           color: const Color(0xBB2C2C2E),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
         ),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
             onTap: onTap,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -191,27 +198,27 @@ class _PhotoUploadCard extends StatelessWidget {
                 if (isMain) ...[
                   // Main Photo Style
                   Container(
-                    width: 48,
-                    height: 48,
-                    decoration: const BoxDecoration(
+                    width: 48.w,
+                    height: 48.h,
+                    decoration: BoxDecoration(
                       color: Color(0xFF00E676),
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
                           color: Color(0x4000E676),
-                          blurRadius: 10,
+                          blurRadius: 10.r,
                           offset: Offset(0, 4),
-                        )
+                        ),
                       ],
                     ),
-                    child: const Icon(Icons.add, color: Colors.black, size: 28),
+                    child: Icon(Icons.add, color: Colors.black, size: 28.sp),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   Text(
                     "Main Photo",
                     style: TextStyle(
                       color: Colors.white.withValues(alpha: 0.7),
-                      fontSize: 12,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -220,9 +227,9 @@ class _PhotoUploadCard extends StatelessWidget {
                   Icon(
                     Icons.add,
                     color: Colors.white.withValues(alpha: 0.3),
-                    size: 28,
+                    size: 28.sp,
                   ),
-                ]
+                ],
               ],
             ),
           ),
@@ -255,7 +262,7 @@ class _DashedBorderPainter extends CustomPainter {
 
     final RRect rrect = RRect.fromRectAndRadius(
       Rect.fromLTWH(0, 0, size.width, size.height),
-      const Radius.circular(20),
+      Radius.circular(20.r),
     );
 
     final Path path = Path()..addRRect(rrect);

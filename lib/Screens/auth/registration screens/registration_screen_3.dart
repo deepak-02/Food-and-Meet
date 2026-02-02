@@ -5,7 +5,7 @@ class RegistrationScreen3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Padding(
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -13,7 +13,7 @@ class RegistrationScreen3 extends StatelessWidget {
         children: [
           Text(
             "title 3",
-            style:  TextStyle(
+            style: TextStyle(
               color: Colors.white,
               fontSize: 32,
               fontWeight: FontWeight.bold,

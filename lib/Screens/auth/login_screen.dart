@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../theme/app_theme.dart';
@@ -15,159 +16,250 @@ class LoginScreen extends StatelessWidget {
         statusBarIconBrightness: Brightness.light,
         statusBarBrightness: Brightness.light,
       ),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Stack(
-          children: [
-            // ------------------------------------------------
-            // LAYER 1: Background Image with Dark Overlay
-            // ------------------------------------------------
-            Positioned.fill(
-              child: Image.asset("assets/images/b1.jpg", fit: BoxFit.cover),
-            ),
-            // Dark overlay to make text readable
-            Positioned.fill(
-              child: Container(color: Colors.black.withValues(alpha: 0.6)),
-            ),
+      child: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+          // 1. CHANGE THIS TO TRUE (Default)
+          // This allows the layout to shrink when keyboard opens
+          resizeToAvoidBottomInset: true,
 
-            // ------------------------------------------------
-            // LAYER 2: Main Content (Text & Form)
-            // ------------------------------------------------
-            SafeArea(
-              child: Column(
-                children: [
-                  const Spacer(flex: 2),
+          body: Stack(
+            children: [
+              // ------------------------------------------------
+              // LAYER 1: Background Image with Dark Overlay
+              // ------------------------------------------------
+              Positioned.fill(
+                child: Image.asset("assets/images/b1.jpg", fit: BoxFit.cover),
+              ),
+              Positioned.fill(
+                child: Container(color: Colors.black.withValues(alpha: 0.6)),
+              ),
 
-                  const Text(
-                    "Taste. Meet.",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Arial', // Use a clean sans-serif font
-                    ),
-                  ),
+              // ------------------------------------------------
+              // LAYER 2: Scrollable Content with Layout Fix
+              // ------------------------------------------------
+              // 2. USE CustomScrollView instead of SingleChildScrollView
+              CustomScrollView(
+                slivers: [
+                  // 3. SliverFillRemaining is the magic widget
+                  SliverFillRemaining(
+                    // hasScrollBody: false tells it "My child is not a list,
+                    // it's a single block of layout."
+                    hasScrollBody: false,
 
-                  ShaderMask(
-                    shaderCallback: (Rect bounds) {
-                      return LinearGradient(
-                        // Approximate colors from your image (Gold to Orange)
-                        colors: [
-                          Color(0xFFB9FF7F), // Light
-                          AppTheme.accent, // Dark
-                        ],
-                        begin: Alignment.centerRight,
-                        end: Alignment.centerLeft,
-                      ).createShader(bounds);
-                    },
-                    // This blend mode applies the shader ONLY to the text pixels
-                    blendMode: BlendMode.srcIn,
-                    child: const Text(
-                      " Repeat.",
-                      style: TextStyle(
-                        // The color here acts as a base; white is standard for masking
-                        color: Colors.white,
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                    // This creates a scrollable area that fills the screen height
+                    // but allows scrolling when content overflows (like keyboard open).
+                    child: SafeArea(
+                      child: Column(
+                        children: [
+                          // Now this Spacer works perfectly!
+                          const Spacer(flex: 2),
 
-                  const SizedBox(height: 20),
-
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 32),
-                    child: Text(
-                      "Login to access curated dining experiences.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 18,
-                        height: 1.4,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 24),
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      color: Colors.white.withValues(alpha: 0.05),
-                      border: Border.all(color: Colors.white24),
-                    ),
-
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Phone Number",
-                          style: TextStyle(color: Colors.white70, fontSize: 14),
-                        ),
-                        const SizedBox(height: 10),
-
-                        // Input Field
-                        TextField(
-                          style: const TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: const Color(0xBB2C2C2E),
-                            hintText: "9952543212",
-                            hintStyle: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.3),
-                            ),
-                            suffixIcon: const Icon(
-                              Icons.phone_iphone,
-                              color: AppTheme.accent,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide.none,
+                          Text(
+                            "Taste. Meet.",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 42.sp,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Arial',
                             ),
                           ),
-                        ),
 
-                        const SizedBox(height: 20),
+                          ShaderMask(
+                            shaderCallback: (Rect bounds) {
+                              return LinearGradient(
+                                colors: [Color(0xFFB9FF7F), AppTheme.accent],
+                                begin: Alignment.centerRight,
+                                end: Alignment.centerLeft,
+                              ).createShader(bounds);
+                            },
+                            blendMode: BlendMode.srcIn,
+                            child: Text(
+                              " Repeat.",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 42.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
 
-                        Center(
-                          child: Text.rich(
+                          SizedBox(height: 20.h),
+
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 32.w),
+                            child: Text(
+                              "Login to access curated dining experiences.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 20.sp,
+                                height: 1.4,
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(height: 20.h),
+
+                          // Login Form Container
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 24.w),
+                            padding: EdgeInsets.all(14.r),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(24.r),
+                              color: Colors.white.withValues(alpha: 0.05),
+                              border: Border.all(color: Colors.white24),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Phone Number",
+                                  style: TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 16.sp,
+                                  ),
+                                ),
+                                SizedBox(height: 10.h),
+
+                                TextField(
+                                  style: const TextStyle(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: const Color(0xBB2C2C2E),
+                                    hintText: "9952543212",
+                                    hintStyle: TextStyle(
+                                      color: Colors.white.withValues(
+                                        alpha: 0.3,
+                                      ),
+                                    ),
+                                    suffixIcon: const Icon(
+                                      Icons.phone_iphone,
+                                      color: AppTheme.accent,
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12.r),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                  ),
+                                ),
+
+                                SizedBox(height: 20.h),
+
+                                Center(
+                                  child: Text.rich(
+                                    TextSpan(
+                                      style: TextStyle(
+                                        color: Colors.white.withValues(
+                                          alpha: 0.5,
+                                        ),
+                                        fontSize: 14.sp,
+                                        height: 1.5,
+                                      ),
+                                      children: [
+                                        const TextSpan(
+                                          text:
+                                              "By continuing, you agree to our ",
+                                        ),
+                                        TextSpan(
+                                          text: "Terms of Service",
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              debugPrint("Terms clicked");
+                                            },
+                                        ),
+                                        const TextSpan(text: "\nand "),
+                                        TextSpan(
+                                          text: "Privacy Policy",
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              debugPrint("Privacy clicked");
+                                            },
+                                        ),
+                                        const TextSpan(text: "."),
+                                      ],
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+
+                                SizedBox(height: 20.h),
+
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 24.w,
+                                    right: 24.w,
+                                    top: 10.h,
+                                    bottom: 24.h,
+                                  ),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    height: 56.h,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppTheme.accent,
+                                        foregroundColor: Colors.black,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            30.r,
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        debugPrint("continue clicked");
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Continue ",
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20.sp,
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 1.0.w,
+                                            ),
+                                          ),
+                                          Icon(
+                                            Icons.arrow_forward,
+                                            color: Colors.black,
+                                            size: 20.sp,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 20.h),
+
+                          // Bottom Links
+                          Text.rich(
                             TextSpan(
-                              // 1. Default Style for the whole block (Grey & Small)
                               style: TextStyle(
                                 color: Colors.white.withValues(alpha: 0.5),
-                                fontSize: 12,
-                                height:
-                                    1.5, // Adds line spacing for better readability
+                                fontSize: 14.sp,
+                                height: 1.5,
                               ),
                               children: [
-                                const TextSpan(
-                                  text: "By continuing, you agree to our ",
-                                ),
-
-                                // 2. "Terms of Service" Link
+                                const TextSpan(text: "New User?  "),
                                 TextSpan(
-                                  text: "Terms of Service",
-                                  style: const TextStyle(
-                                    color:
-                                        Colors.white, // Brighter to stand out
-                                    decoration:
-                                        TextDecoration.underline, // Underlined
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      // Handle the tap here (e.g., open URL)
-                                      debugPrint("Terms of Service clicked");
-                                    },
-                                ),
-
-                                const TextSpan(text: "\nand "),
-
-                                // 3. "Privacy Policy" Link
-                                TextSpan(
-                                  text: "Privacy Policy",
+                                  text: "Register",
                                   style: const TextStyle(
                                     color: Colors.white,
                                     decoration: TextDecoration.underline,
@@ -175,107 +267,23 @@ class LoginScreen extends StatelessWidget {
                                   ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      // Handle the tap here
-                                      debugPrint("Privacy Policy clicked");
+                                      context.push('/register');
                                     },
                                 ),
-
                                 const TextSpan(text: "."),
                               ],
                             ),
-                            // Center align the text block
                             textAlign: TextAlign.center,
                           ),
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 24,
-                            right: 24,
-                            top: 10,
-                            bottom: 24,
-                          ),
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: 56,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppTheme.accent,
-                                foregroundColor: Colors.black,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                              ),
-                              onPressed: () {
-                                debugPrint("continue clicked");
-                              },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Continue ",
-                                    style: TextStyle(
-                                      color: Colors.black, // White text
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 1.0,
-                                    ),
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward,
-                                    color: Colors.black,
-                                    size: 18,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  Text.rich(
-                    TextSpan(
-                      // 1. Default Style for the whole block (Grey & Small)
-                      style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.5),
-                        fontSize: 12,
-                        height: 1.5, // Adds line spacing for better readability
+                          SizedBox(height: 20.h),
+                        ],
                       ),
-                      children: [
-                        const TextSpan(text: "New User?  "),
-
-                        TextSpan(
-                          text: "Register",
-                          style: const TextStyle(
-                            color: Colors.white, // Brighter to stand out
-                            decoration: TextDecoration.underline, // Underlined
-                            fontWeight: FontWeight.w600,
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              // Handle the tap here (e.g., open URL)
-                              debugPrint("Create account clicked");
-                              context.push('/register');
-                            },
-                        ),
-                        const TextSpan(text: "."),
-                      ],
                     ),
-                    // Center align the text block
-                    textAlign: TextAlign.center,
                   ),
-
-                  const SizedBox(height: 20),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

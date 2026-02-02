@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food/Screens/auth/registration%20screens/registeration_screen_1.dart';
 import 'package:food/Screens/auth/registration%20screens/registration_screen_2.dart';
 import 'package:food/Screens/auth/registration%20screens/registration_screen_3.dart';
@@ -17,7 +18,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class RegisterScreenState extends State<RegisterScreen> {
-
   // Controller to programmatically scroll pages
   final PageController _pageController = PageController();
 
@@ -77,7 +77,6 @@ class RegisterScreenState extends State<RegisterScreen> {
     // Navigate to preview screen
   }
 
-
   @override
   void dispose() {
     _pageController.dispose();
@@ -89,137 +88,145 @@ class RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.light,
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Stack(
-          children: [
-            // background
-            _LightingBackground(),
+    return PopScope(
+      // 'canPop' determines if the system is allowed to close the screen.
+      // We only allow it if we are on the first page (index 0).
+      canPop: _currentPage == 0,
 
-            SafeArea(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      IconButton(
-                        tooltip: 'Back',
-                        onPressed: _handleBack, // Link to back logic
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                        ),
-                      ),
+      // This callback runs when the user tries to go back
+      // This callback runs when the user tries to go back
+      onPopInvokedWithResult: (didPop, result) {
+        // If 'canPop' was true (page 0), the pop happened. We stop here.
+        if (didPop) return;
 
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.3,),
+        // If 'canPop' was false (page > 0), the pop was blocked.
+        // We manually scroll back to the previous page.
+        _pageController.previousPage(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      },
 
-                      // Dynamic Dots
-                      Row(
-                        children: List.generate(4, (index) {
-                          return _dot(active: index == _currentPage);
-                        }),
-                      ),
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: const SystemUiOverlayStyle(
+          statusBarIconBrightness: Brightness.light,
+          statusBarBrightness: Brightness.light,
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.black,
+          body: Stack(
+            children: [
+              // background
+              _LightingBackground(),
 
-                    ],
-                  ),
-
-                  const SizedBox(height: 20,),
-
-                  // page view to handle 4 pages of registration screens
-                  Expanded(
-                    child: PageView(
-                      controller: _pageController,
-                      physics: const NeverScrollableScrollPhysics(), // Do not allow swipe
-                      onPageChanged: (int page) {
-                        setState(() {
-                          _currentPage = page;
-                        });
-                      },
+              SafeArea(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        RegistrationScreen1(
-                          nameController: _nameController,
-                          phoneController: _phoneController,
-                          aadhaarController: _aadhaarController,
-                          addressController: _addressController,
-                          dobController: _dobController,
+                        IconButton(
+                          tooltip: 'Back',
+                          onPressed: _handleBack, // Link to back logic
+                          icon: Icon(Icons.arrow_back, color: Colors.white),
                         ),
 
-                        RegistrationScreen2(images: images,),
-                        RegistrationScreen3(),
-                        RegistrationScreen4(),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width.w * 0.3,
+                        ),
+
+                        // Dynamic Dots
+                        Row(
+                          children: List.generate(4, (index) {
+                            return _dot(active: index == _currentPage);
+                          }),
+                        ),
                       ],
                     ),
-                  ),
 
+                    SizedBox(height: 20.h),
 
-                  const SizedBox(height: 20,),
-
-                  // Button to handle the page switching
-                  Padding(
-                    padding: const EdgeInsets.only(left: 24, right: 24),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 56,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.accent,
-                          foregroundColor: Colors.black,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                    // page view to handle 4 pages of registration screens
+                    Expanded(
+                      child: PageView(
+                        controller: _pageController,
+                        physics:
+                            const NeverScrollableScrollPhysics(), // Do not allow swipe
+                        onPageChanged: (int page) {
+                          setState(() {
+                            _currentPage = page;
+                          });
+                        },
+                        children: [
+                          RegistrationScreen1(
+                            nameController: _nameController,
+                            phoneController: _phoneController,
+                            aadhaarController: _aadhaarController,
+                            addressController: _addressController,
+                            dobController: _dobController,
                           ),
-                        ),
-                        onPressed: _handleContinue, // Link to continue logic,
-                        child: Text(
-                          _currentPage == 3 ? "Finish" : "Continue",
-                          style: TextStyle(
-                            color: Colors.black, // White text
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.0,
+
+                          RegistrationScreen2(images: images),
+                          RegistrationScreen3(),
+                          RegistrationScreen4(),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 20.h),
+
+                    // Button to handle the page switching
+                    Padding(
+                      padding: EdgeInsets.only(left: 24.w, right: 24.w),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 56.h,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.accent,
+                            foregroundColor: Colors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.r),
+                            ),
+                          ),
+                          onPressed: _handleContinue, // Link to continue logic,
+                          child: Text(
+                            _currentPage == 3 ? "Finish" : "Continue",
+                            style: TextStyle(
+                              color: Colors.black, // White text
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.0.w,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-
-
-                ],
+                    SizedBox(height: 20.h),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-
       ),
     );
   }
 
   static Widget _dot({bool active = false}) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 4),
-      width: active ? 25 : 6,
-      height: 6,
+      margin: EdgeInsets.symmetric(horizontal: 4.r),
+      width: active ? 25.w : 6.h,
+      height: 6.h,
       decoration: BoxDecoration(
         color: active ? AppTheme.accent : Colors.grey[700],
-        borderRadius: BorderRadius.circular(3),
+        borderRadius: BorderRadius.circular(3.r),
       ),
     );
   }
-
 }
-
-
-
 
 class _LightingBackground extends StatelessWidget {
   const _LightingBackground();
@@ -230,30 +237,16 @@ class _LightingBackground extends StatelessWidget {
       child: Stack(
         children: [
           // Top glow
-          Positioned(
-            top: -120,
-            left: -80,
-            child: _glow(size: 320),
-          ),
+          Positioned(top: -120, left: -80, child: _glow(size: 320)),
 
           // Center glow
-          Positioned(
-            top: 200,
-            right: -100,
-            child: _glow(size: 260),
-          ),
+          Positioned(top: 200, right: -100, child: _glow(size: 260)),
 
           // Bottom glow
-          Positioned(
-            bottom: -140,
-            left: 60,
-            child: _glow(size: 300),
-          ),
+          Positioned(bottom: -140, left: 60, child: _glow(size: 300)),
         ],
       ),
     );
-
-
   }
 
   Widget _glow({required double size}) {
@@ -265,7 +258,7 @@ class _LightingBackground extends StatelessWidget {
         gradient: RadialGradient(
           colors: [
             AppTheme.accent.withValues(alpha: 0.35),
-            AppTheme.accent.withValues(alpha: 0.0)
+            AppTheme.accent.withValues(alpha: 0.0),
           ],
         ),
       ),

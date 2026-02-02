@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class InputField extends StatelessWidget {
   const InputField({
-    super.key,  this.name, this.hint,  this.icon,  this.controller
+    super.key,
+    this.name,
+    this.hint,
+    this.icon,
+    this.controller,
   });
 
-  final String ? name;
-  final String ? hint;
-  final IconData ? icon;
-  final TextEditingController ? controller;
-
+  final String? name;
+  final String? hint;
+  final IconData? icon;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -20,19 +24,17 @@ class InputField extends StatelessWidget {
           name ?? "",
           style: TextStyle(
             color: Colors.white.withValues(alpha: 0.8),
-            fontSize: 16,
+            fontSize: 16.sp,
           ),
         ),
-        const SizedBox(height: 5),
+        SizedBox(height: 5.h),
         Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-          ),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.r)),
           child: TextField(
             controller: controller,
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.white, // Color of the text user types
-              fontSize: 16,
+              fontSize: 16.sp,
             ),
             decoration: InputDecoration(
               filled: true,
@@ -40,25 +42,25 @@ class InputField extends StatelessWidget {
               hintText: hint,
               hintStyle: TextStyle(
                 color: Colors.white.withValues(alpha: 0.4),
-                fontSize: 16,
+                fontSize: 16.sp,
               ),
 
               prefixIcon: Padding(
-                padding: const EdgeInsets.only(left: 12.0, right: 8.0),
+                padding: EdgeInsets.only(left: 12.0.w, right: 8.0.w),
                 child: Icon(
                   icon,
                   color: Colors.white.withValues(alpha: 0.4),
-                  size: 20,
+                  size: 20.sp,
                 ),
               ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 borderSide: BorderSide.none,
               ),
-              contentPadding: const EdgeInsets.symmetric(vertical: 16),
+              contentPadding: EdgeInsets.symmetric(vertical: 16.h),
             ),
           ),
-        )
+        ),
       ],
     );
   }
