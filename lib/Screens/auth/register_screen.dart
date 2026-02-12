@@ -23,9 +23,10 @@ class RegisterScreenState extends State<RegisterScreen> {
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _aadhaarController = TextEditingController();
+  // final TextEditingController _aadhaarController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
+  final TextEditingController _otpController = TextEditingController();
 
   final List<File?> images = [null, null, null, null];
 
@@ -66,7 +67,7 @@ class RegisterScreenState extends State<RegisterScreen> {
     final registrationData = {
       "name": _nameController.text.trim(),
       "phone": _phoneController.text.trim(),
-      "aadhaar": _aadhaarController.text.trim(),
+      // "aadhaar": _aadhaarController.text.trim(),
       "address": _addressController.text.trim(),
       "dob": _dobController.text, // ideally DateTime
       "images": images.whereType<File>().toList(),
@@ -82,9 +83,10 @@ class RegisterScreenState extends State<RegisterScreen> {
     _pageController.dispose();
     _nameController.dispose();
     _phoneController.dispose();
-    _aadhaarController.dispose();
+    // _aadhaarController.dispose();
     _addressController.dispose();
     _dobController.dispose();
+    _otpController.dispose();
     super.dispose();
   }
 
@@ -115,7 +117,7 @@ class RegisterScreenState extends State<RegisterScreen> {
           statusBarBrightness: Brightness.light,
         ),
         child: Scaffold(
-          backgroundColor: Colors.black,
+          backgroundColor: AppTheme.scaffoldBackgroundColor,
           body: Stack(
             children: [
               // background
@@ -130,7 +132,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                         IconButton(
                           tooltip: 'Back',
                           onPressed: _handleBack, // Link to back logic
-                          icon: Icon(Icons.arrow_back, color: Colors.white),
+                          icon: Icon(Icons.arrow_back, color: AppTheme.text1),
                         ),
 
                         SizedBox(
@@ -163,9 +165,10 @@ class RegisterScreenState extends State<RegisterScreen> {
                           RegistrationScreen1(
                             nameController: _nameController,
                             phoneController: _phoneController,
-                            aadhaarController: _aadhaarController,
+                            // aadhaarController: _aadhaarController,
                             addressController: _addressController,
                             dobController: _dobController,
+                            otpController: _otpController,
                           ),
 
                           RegistrationScreen2(images: images),
@@ -186,7 +189,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.accent,
-                            foregroundColor: Colors.black,
+                            foregroundColor: AppTheme.buttonForeground,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.r),
                             ),
@@ -195,7 +198,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                           child: Text(
                             _currentPage == 3 ? "Finish" : "Continue",
                             style: TextStyle(
-                              color: Colors.black, // White text
+                              color: AppTheme.buttonForeground,
                               fontSize: 20.sp,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1.0.w,
@@ -221,7 +224,7 @@ class RegisterScreenState extends State<RegisterScreen> {
       width: active ? 25.w : 6.h,
       height: 6.h,
       decoration: BoxDecoration(
-        color: active ? AppTheme.accent : Colors.grey[700],
+        color: active ? AppTheme.accent : AppTheme.text4,
         borderRadius: BorderRadius.circular(3.r),
       ),
     );

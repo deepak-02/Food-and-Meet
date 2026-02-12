@@ -30,7 +30,7 @@ class RegistrationScreen2 extends StatelessWidget {
                   TextSpan(
                     text: "Verify Your",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppTheme.text1,
                       fontSize: 34.sp,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 0.5.w,
@@ -62,7 +62,7 @@ class RegistrationScreen2 extends StatelessWidget {
             Text(
               "We value authenticity. Upload photos to help your dining companions recognize you.",
               style: TextStyle(
-                color: Colors.white.withValues(alpha: 0.6),
+                color: AppTheme.text2,
                 fontSize: 18.sp,
                 height: 1.5,
               ),

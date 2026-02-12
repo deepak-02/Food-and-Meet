@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../theme/app_theme.dart';
+
 class DateOfBirthField extends StatelessWidget {
   final TextEditingController controller;
 
@@ -15,7 +17,7 @@ class DateOfBirthField extends StatelessWidget {
         Text(
           "Date of Birth",
           style: TextStyle(
-            color: Colors.white.withValues(alpha: 0.8),
+            color: AppTheme.text1.withValues(alpha: 0.8),
             fontSize: 16.sp,
           ),
         ),
@@ -29,21 +31,21 @@ class DateOfBirthField extends StatelessWidget {
             // PREVENT KEYBOARD: This makes it act like a button
             readOnly: true,
             onTap: () => _selectDate(context),
-            style: TextStyle(color: Colors.white, fontSize: 16.sp),
+            style: TextStyle(color: AppTheme.text1, fontSize: 16.sp),
             decoration: InputDecoration(
               filled: true,
               // Match your existing semi-transparent background
               fillColor: const Color(0xBB2C2C2E),
               hintText: "DD / MM / YYYY",
               hintStyle: TextStyle(
-                color: Colors.white.withValues(alpha: 0.4),
+                color: AppTheme.text1.withValues(alpha: 0.4),
                 fontSize: 16.sp,
               ),
               prefixIcon: Padding(
                 padding: EdgeInsets.only(left: 12.0.w, right: 8.0.w),
                 child: Icon(
                   Icons.calendar_today_rounded, // Calendar Icon
-                  color: Colors.white.withValues(alpha: 0.4),
+                  color: AppTheme.text1.withValues(alpha: 0.4),
                   size: 20.sp,
                 ),
               ),
@@ -73,16 +75,14 @@ class DateOfBirthField extends StatelessWidget {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.dark(
-              primary: const Color(0xFF00E676), // Your Green Accent Color
-              onPrimary: Colors.black, // Text color on the accent
-              surface: const Color(
-                0xFF1C1C1E,
-              ).withValues(alpha: 0.9), // Background with transparency
-              onSurface: Colors.white, // Text color
+              primary: AppTheme.accent, // Your Green Accent Color
+              onPrimary: AppTheme.buttonForeground, // Text color on the accent
+              surface: AppTheme.inputBackground, // Background with transparency
+              onSurface: AppTheme.text1, // Text color
             ), // Ensures rounded corners work
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
-                foregroundColor: const Color(0xFF00E676), // Button text color
+                foregroundColor: AppTheme.accent, // Button text color
               ),
             ),
             dialogTheme: DialogThemeData(backgroundColor: Colors.transparent),

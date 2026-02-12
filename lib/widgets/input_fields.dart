@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../theme/app_theme.dart';
+
 class InputField extends StatelessWidget {
   const InputField({
     super.key,
     this.name,
     this.hint,
     this.icon,
+    this.suffixIcon,
     this.controller,
+    this.onPressed,
+    this.tooltip,
   });
 
   final String? name;
   final String? hint;
   final IconData? icon;
+  final IconData? suffixIcon;
   final TextEditingController? controller;
+  final Function()? onPressed;
+  final String? tooltip;
+
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +32,7 @@ class InputField extends StatelessWidget {
         Text(
           name ?? "",
           style: TextStyle(
-            color: Colors.white.withValues(alpha: 0.8),
+            color: AppTheme.text1.withValues(alpha: 0.8),
             fontSize: 16.sp,
           ),
         ),
@@ -33,15 +42,15 @@ class InputField extends StatelessWidget {
           child: TextField(
             controller: controller,
             style: TextStyle(
-              color: Colors.white, // Color of the text user types
+              color: AppTheme.text1, // Color of the text user types
               fontSize: 16.sp,
             ),
             decoration: InputDecoration(
               filled: true,
-              fillColor: const Color(0xBB2C2C2E), // background color
+              fillColor: AppTheme.inputBackground, // background color
               hintText: hint,
               hintStyle: TextStyle(
-                color: Colors.white.withValues(alpha: 0.4),
+                color: AppTheme.hint,
                 fontSize: 16.sp,
               ),
 
@@ -49,10 +58,21 @@ class InputField extends StatelessWidget {
                 padding: EdgeInsets.only(left: 12.0.w, right: 8.0.w),
                 child: Icon(
                   icon,
-                  color: Colors.white.withValues(alpha: 0.4),
+                  color: AppTheme.hint,
                   size: 20.sp,
                 ),
               ),
+
+              suffixIcon: IconButton(
+                onPressed: onPressed,
+                tooltip: tooltip,
+                icon: Icon(
+                  suffixIcon,
+                  color: AppTheme.accent,
+                  size: 20.sp,
+                ),
+              ),
+
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16.r),
                 borderSide: BorderSide.none,

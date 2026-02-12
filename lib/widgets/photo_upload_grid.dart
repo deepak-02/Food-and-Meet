@@ -2,7 +2,9 @@ import 'dart:io'; // Required for File
 import 'dart:ui'; // Required for PathMetric
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart'; // Required package
+import 'package:image_picker/image_picker.dart';
+
+import '../theme/app_theme.dart'; // Required package
 
 class ImageUploadGrid extends StatefulWidget {
   const ImageUploadGrid({super.key, required this.images});
@@ -36,7 +38,7 @@ class _ImageUploadGridState extends State<ImageUploadGrid> {
   void _showPickerOptions(BuildContext context, int index) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: const Color(0xFF1C1C1E),
+      backgroundColor: AppTheme.inputBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -45,10 +47,10 @@ class _ImageUploadGridState extends State<ImageUploadGrid> {
           child: Wrap(
             children: <Widget>[
               ListTile(
-                leading: const Icon(Icons.photo_library, color: Colors.white),
+                leading: const Icon(Icons.photo_library, color: AppTheme.text1),
                 title: const Text(
                   'Gallery',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: AppTheme.text1),
                 ),
                 onTap: () {
                   Navigator.of(context).pop();
@@ -56,10 +58,10 @@ class _ImageUploadGridState extends State<ImageUploadGrid> {
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.photo_camera, color: Colors.white),
+                leading: const Icon(Icons.photo_camera, color: AppTheme.text1),
                 title: const Text(
                   'Camera',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: AppTheme.text1),
                 ),
                 onTap: () {
                   Navigator.of(context).pop();
@@ -147,7 +149,7 @@ class _PhotoUploadCard extends StatelessWidget {
                   color: Colors.black54,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Icons.close, color: Colors.white, size: 18.sp),
+                child: Icon(Icons.close, color: AppTheme.text1, size: 18.sp),
               ),
             ),
           ),
@@ -166,7 +168,7 @@ class _PhotoUploadCard extends StatelessWidget {
                   ),
                   child: Text(
                     "Main Photo",
-                    style: TextStyle(color: Colors.white, fontSize: 12.sp),
+                    style: TextStyle(color: AppTheme.text1, fontSize: 12.sp),
                   ),
                 ),
               ),
@@ -178,13 +180,13 @@ class _PhotoUploadCard extends StatelessWidget {
     // If NO image, show the Dashed Border Upload UI
     return CustomPaint(
       foregroundPainter: _DashedBorderPainter(
-        color: Colors.white.withValues(alpha: 0.3),
+        color: AppTheme.text1.withValues(alpha: 0.3),
         strokeWidth: 1.5.w,
         gap: 6.0.w,
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xBB2C2C2E),
+          color: AppTheme.inputBackground,
           borderRadius: BorderRadius.circular(20.r),
         ),
         child: Material(
@@ -201,23 +203,23 @@ class _PhotoUploadCard extends StatelessWidget {
                     width: 48.w,
                     height: 48.h,
                     decoration: BoxDecoration(
-                      color: Color(0xFF00E676),
+                      color: AppTheme.accent,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: Color(0x4000E676),
+                          color: AppTheme.accent.withValues(alpha: 0.3),
                           blurRadius: 10.r,
                           offset: Offset(0, 4),
                         ),
                       ],
                     ),
-                    child: Icon(Icons.add, color: Colors.black, size: 28.sp),
+                    child: Icon(Icons.add, color: AppTheme.buttonForeground, size: 28.sp),
                   ),
                   SizedBox(height: 8.h),
                   Text(
                     "Main Photo",
                     style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.7),
+                      color: AppTheme.text1.withValues(alpha: 0.7),
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
                     ),
@@ -226,7 +228,7 @@ class _PhotoUploadCard extends StatelessWidget {
                   // Secondary Photo Style
                   Icon(
                     Icons.add,
-                    color: Colors.white.withValues(alpha: 0.3),
+                    color: AppTheme.text1.withValues(alpha: 0.3),
                     size: 28.sp,
                   ),
                 ],

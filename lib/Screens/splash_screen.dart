@@ -16,7 +16,7 @@ class SplashScreen extends StatelessWidget {
         statusBarBrightness: Brightness.light,
       ),
       child: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: AppTheme.scaffoldBackgroundColor,
 
         body: Stack(
           children: [
@@ -49,8 +49,8 @@ class SplashScreen extends StatelessWidget {
                     padding: EdgeInsets.all(14.r),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(24.r),
-                      color: Colors.white.withValues(alpha: 0.05),
-                      border: Border.all(color: Colors.white24),
+                      color: AppTheme.text1.withValues(alpha: 0.05),
+                      border: Border.all(color: AppTheme.text4),
                     ),
                     child: Column(
                       children: [
@@ -71,7 +71,7 @@ class SplashScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100.r),
                             color: Colors.white.withValues(alpha: 0.05),
-                            border: Border.all(color: Colors.white24),
+                            border: Border.all(color: AppTheme.text4),
                           ),
 
                           child: Row(
@@ -90,7 +90,7 @@ class SplashScreen extends StatelessWidget {
                                 child: Text(
                                   "VERIFIED COMMUNITY",
                                   style: TextStyle(
-                                    color: Colors.white70,
+                                    color: AppTheme.text1.withValues(alpha: 0.7),
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -108,7 +108,7 @@ class SplashScreen extends StatelessWidget {
                   Text(
                     "Taste. Meet.",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppTheme.text1,
                       fontSize: 40.sp,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Arial', // Use a clean sans-serif font
@@ -120,7 +120,7 @@ class SplashScreen extends StatelessWidget {
                       return LinearGradient(
                         // Approximate colors from your image (Gold to Orange)
                         colors: [
-                          Color(0xFFB9FF7F), // Light
+                          AppTheme.secondary, // Light
                           AppTheme.accent, // Dark
                         ],
                         begin: Alignment.centerRight,
@@ -133,7 +133,7 @@ class SplashScreen extends StatelessWidget {
                       "Repeat.",
                       style: TextStyle(
                         // The color here acts as a base; white is standard for masking
-                        color: Colors.white,
+                        color: AppTheme.text1,
                         fontSize: 40.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -148,7 +148,7 @@ class SplashScreen extends StatelessWidget {
                       "Discover curated dining experiences with verified foodies near you.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.grey,
+                        color: AppTheme.text2,
                         fontSize: 18.sp,
                         height: 1.4,
                       ),

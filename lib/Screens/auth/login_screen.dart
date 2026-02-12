@@ -58,7 +58,7 @@ class LoginScreen extends StatelessWidget {
                           Text(
                             "Taste. Meet.",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: AppTheme.text1,
                               fontSize: 42.sp,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Arial',
@@ -77,7 +77,7 @@ class LoginScreen extends StatelessWidget {
                             child: Text(
                               " Repeat.",
                               style: TextStyle(
-                                color: Colors.white,
+                                color: AppTheme.text1,
                                 fontSize: 42.sp,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -92,7 +92,7 @@ class LoginScreen extends StatelessWidget {
                               "Login to access curated dining experiences.",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Colors.grey,
+                                color: AppTheme.text2,
                                 fontSize: 20.sp,
                                 height: 1.4,
                               ),
@@ -108,7 +108,7 @@ class LoginScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(24.r),
                               color: Colors.white.withValues(alpha: 0.05),
-                              border: Border.all(color: Colors.white24),
+                              border: Border.all(color: AppTheme.text4),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,20 +116,20 @@ class LoginScreen extends StatelessWidget {
                                 Text(
                                   "Phone Number",
                                   style: TextStyle(
-                                    color: Colors.white70,
+                                    color: AppTheme.text2,
                                     fontSize: 16.sp,
                                   ),
                                 ),
                                 SizedBox(height: 10.h),
 
                                 TextField(
-                                  style: const TextStyle(color: Colors.white),
+                                  style: TextStyle(color: AppTheme.text1),
                                   decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: const Color(0xBB2C2C2E),
+                                    fillColor: AppTheme.inputBackground,
                                     hintText: "9952543212",
                                     hintStyle: TextStyle(
-                                      color: Colors.white.withValues(
+                                      color: AppTheme.text1.withValues(
                                         alpha: 0.3,
                                       ),
                                     ),
@@ -150,7 +150,7 @@ class LoginScreen extends StatelessWidget {
                                   child: Text.rich(
                                     TextSpan(
                                       style: TextStyle(
-                                        color: Colors.white.withValues(
+                                        color: AppTheme.text1.withValues(
                                           alpha: 0.5,
                                         ),
                                         fontSize: 14.sp,
@@ -164,7 +164,7 @@ class LoginScreen extends StatelessWidget {
                                         TextSpan(
                                           text: "Terms of Service",
                                           style: const TextStyle(
-                                            color: Colors.white,
+                                            color: AppTheme.text1,
                                             decoration:
                                                 TextDecoration.underline,
                                             fontWeight: FontWeight.w600,
@@ -178,7 +178,7 @@ class LoginScreen extends StatelessWidget {
                                         TextSpan(
                                           text: "Privacy Policy",
                                           style: const TextStyle(
-                                            color: Colors.white,
+                                            color: AppTheme.text1,
                                             decoration:
                                                 TextDecoration.underline,
                                             fontWeight: FontWeight.w600,
@@ -210,7 +210,7 @@ class LoginScreen extends StatelessWidget {
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: AppTheme.accent,
-                                        foregroundColor: Colors.black,
+                                        foregroundColor: AppTheme.buttonForeground,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(
                                             30.r,
@@ -227,7 +227,7 @@ class LoginScreen extends StatelessWidget {
                                           Text(
                                             "Continue ",
                                             style: TextStyle(
-                                              color: Colors.black,
+                                              color: AppTheme.buttonForeground,
                                               fontSize: 20.sp,
                                               fontWeight: FontWeight.bold,
                                               letterSpacing: 1.0.w,
@@ -235,7 +235,7 @@ class LoginScreen extends StatelessWidget {
                                           ),
                                           Icon(
                                             Icons.arrow_forward,
-                                            color: Colors.black,
+                                            color: AppTheme.buttonForeground,
                                             size: 20.sp,
                                           ),
                                         ],
@@ -252,7 +252,7 @@ class LoginScreen extends StatelessWidget {
                           Text.rich(
                             TextSpan(
                               style: TextStyle(
-                                color: Colors.white.withValues(alpha: 0.5),
+                                color: AppTheme.text1.withValues(alpha: 0.5),
                                 fontSize: 14.sp,
                                 height: 1.5,
                               ),
@@ -261,7 +261,7 @@ class LoginScreen extends StatelessWidget {
                                 TextSpan(
                                   text: "Register",
                                   style: const TextStyle(
-                                    color: Colors.white,
+                                    color: AppTheme.text1,
                                     decoration: TextDecoration.underline,
                                     fontWeight: FontWeight.w600,
                                   ),
