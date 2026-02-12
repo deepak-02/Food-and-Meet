@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../theme/app_theme.dart';
 import '../../../widgets/dob_picker.dart';
+import '../../../widgets/gender_dropdown.dart';
 import '../../../widgets/input_fields.dart';
 
 class RegistrationScreen1 extends StatelessWidget {
@@ -13,7 +14,14 @@ class RegistrationScreen1 extends StatelessWidget {
     // required this.aadhaarController,
     required this.addressController,
     required this.dobController,
-    required this.otpController, required this.nameError, required this.phoneError, required this.addressError, required this.dobError,
+    required this.otpController,
+    required this.nameError,
+    required this.phoneError,
+    required this.addressError,
+    required this.dobError,
+    this.selectedGender,
+    required this.onGenderChanged,
+    required this.genderError,
   });
 
   final TextEditingController nameController;
@@ -27,6 +35,10 @@ class RegistrationScreen1 extends StatelessWidget {
   final ValueNotifier<String?> phoneError;
   final ValueNotifier<String?> addressError;
   final ValueNotifier<String?> dobError;
+
+  final String? selectedGender;
+  final ValueChanged<String?> onGenderChanged;
+  final ValueNotifier<String?> genderError;
 
   @override
   Widget build(BuildContext context) {
@@ -77,40 +89,42 @@ class RegistrationScreen1 extends StatelessWidget {
               ),
               SizedBox(height: 20.h),
               ValueListenableBuilder<String?>(
-                  valueListenable: phoneError,
-                  builder: (context, error, child) {
-                    return ValueListenableBuilder<TextEditingValue>(
-                      valueListenable: phoneController,
-                      builder: (context, value, child) {
-                        final bool isPhoneValid = value.text.length == 10;
-                        return Column(
-                          children: [
+                valueListenable: phoneError,
+                builder: (context, error, child) {
+                  return ValueListenableBuilder<TextEditingValue>(
+                    valueListenable: phoneController,
+                    builder: (context, value, child) {
+                      final bool isPhoneValid = value.text.length == 10;
+                      return Column(
+                        children: [
+                          InputField(
+                            name: "Phone Number",
+                            hint: "9952543212",
+                            icon: Icons.phone,
+                            suffixIcon: isPhoneValid
+                                ? Icons.verified_outlined
+                                : null,
+                            controller: phoneController,
+                            maxLength: 10,
+                            keyboardType: TextInputType.phone,
+                            errorText: error, // Show error if present
+                            onPressed: () {},
+                            tooltip: "Verify Phone Number",
+                          ),
+                          if (isPhoneValid) ...[
+                            SizedBox(height: 20.h),
                             InputField(
-                              name: "Phone Number",
-                              hint: "9952543212",
-                              icon: Icons.phone,
-                              suffixIcon: isPhoneValid ? Icons.verified_outlined : null,
-                              controller: phoneController,
-                              maxLength: 10,
-                              keyboardType: TextInputType.phone,
-                              errorText: error, // Show error if present
-                              onPressed: () {},
-                              tooltip: "Verify Phone Number",
+                              name: "OTP",
+                              hint: "1234",
+                              icon: Icons.message,
+                              controller: otpController,
                             ),
-                            if (isPhoneValid) ...[
-                              SizedBox(height: 20.h),
-                              InputField(
-                                name: "OTP",
-                                hint: "1234",
-                                icon: Icons.message,
-                                controller: otpController,
-                              ),
-                            ],
                           ],
-                        );
-                      },
-                    );
-                  }
+                        ],
+                      );
+                    },
+                  );
+                },
               ),
               // SizedBox(height: 20.h),
               // InputField(
@@ -126,6 +140,17 @@ class RegistrationScreen1 extends StatelessWidget {
                   return DateOfBirthField(
                     controller: dobController,
                     errorText: errorText,
+                  );
+                },
+              ),
+              SizedBox(height: 20.h),
+              ValueListenableBuilder<String?>(
+                valueListenable: genderError,
+                builder: (context, error, child) {
+                  return GenderDropdown(
+                    value: selectedGender,
+                    onChanged: onGenderChanged,
+                    errorText: error, // Logic handled inside widget
                   );
                 },
               ),

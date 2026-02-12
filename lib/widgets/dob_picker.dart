@@ -67,10 +67,7 @@ class DateOfBirthField extends StatelessWidget {
               // Focused Border (No Error)
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16.r),
-                borderSide: BorderSide(
-                  color: AppTheme.accent,
-                  width: 1.5,
-                ),
+                borderSide: BorderSide(color: AppTheme.accent, width: 1.5),
               ),
 
               // Error Border (Red)

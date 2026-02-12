@@ -14,7 +14,6 @@ class AppTheme {
 
   static const Color errorColor = Colors.redAccent;
 
-
   static ThemeData dark = ThemeData(
     brightness: Brightness.dark,
     useMaterial3: true,

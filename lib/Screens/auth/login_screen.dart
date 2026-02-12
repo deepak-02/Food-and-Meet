@@ -210,7 +210,8 @@ class LoginScreen extends StatelessWidget {
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: AppTheme.accent,
-                                        foregroundColor: AppTheme.buttonForeground,
+                                        foregroundColor:
+                                            AppTheme.buttonForeground,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(
                                             30.r,

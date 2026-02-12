@@ -90,7 +90,9 @@ class SplashScreen extends StatelessWidget {
                                 child: Text(
                                   "VERIFIED COMMUNITY",
                                   style: TextStyle(
-                                    color: AppTheme.text1.withValues(alpha: 0.7),
+                                    color: AppTheme.text1.withValues(
+                                      alpha: 0.7,
+                                    ),
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),

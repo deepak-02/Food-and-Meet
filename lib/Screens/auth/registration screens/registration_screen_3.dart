@@ -4,7 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../theme/app_theme.dart';
 
 class RegistrationScreen3 extends StatefulWidget {
-  const RegistrationScreen3({super.key, required this.selectedInterests, required this.controller, required this.interests, required this.errorNotifier});
+  const RegistrationScreen3({
+    super.key,
+    required this.selectedInterests,
+    required this.controller,
+    required this.interests,
+    required this.errorNotifier,
+  });
 
   final Set<String> selectedInterests;
   final TextEditingController controller;
@@ -88,7 +94,10 @@ class _RegistrationScreen3State extends State<RegistrationScreen3> {
                   return Container(
                     width: double.infinity,
                     margin: EdgeInsets.only(bottom: 20.h),
-                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 12.h,
+                    ),
                     decoration: BoxDecoration(
                       color: AppTheme.errorColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12.r),
@@ -96,7 +105,11 @@ class _RegistrationScreen3State extends State<RegistrationScreen3> {
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.error_outline, color: AppTheme.errorColor, size: 20.sp),
+                        Icon(
+                          Icons.error_outline,
+                          color: AppTheme.errorColor,
+                          size: 20.sp,
+                        ),
                         SizedBox(width: 12.w),
                         Expanded(
                           child: Text(
@@ -135,7 +148,9 @@ class _RegistrationScreen3State extends State<RegistrationScreen3> {
                           boxShadow: [
                             // Optional: very subtle shadow to match the clean look
                             BoxShadow(
-                              color: AppTheme.buttonForeground.withValues(alpha: 0.03),
+                              color: AppTheme.buttonForeground.withValues(
+                                alpha: 0.03,
+                              ),
                               blurRadius: 10,
                               offset: const Offset(0, 4),
                             ),
@@ -146,7 +161,8 @@ class _RegistrationScreen3State extends State<RegistrationScreen3> {
                           maxLength: maxLength,
                           maxLines: 4, // Gives it the height shown in image
                           style: TextStyle(
-                            color: AppTheme.text1, // Color of the text user types
+                            color:
+                                AppTheme.text1, // Color of the text user types
                             fontSize: 16.sp,
                           ),
                           decoration: InputDecoration(
@@ -242,7 +258,9 @@ class _RegistrationScreen3State extends State<RegistrationScreen3> {
                 children: widget.interests.map((option) {
                   final String label = option['label'];
                   final IconData icon = option['icon'];
-                  final bool isSelected = widget.selectedInterests.contains(label);
+                  final bool isSelected = widget.selectedInterests.contains(
+                    label,
+                  );
 
                   return GestureDetector(
                     onTap: () {
@@ -258,10 +276,15 @@ class _RegistrationScreen3State extends State<RegistrationScreen3> {
                     },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
-                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.w,
+                        vertical: 12.h,
+                      ),
                       decoration: BoxDecoration(
                         // Dynamic Color: Bright Green if selected, Light Grey if not
-                        color: isSelected ? AppTheme.accent : AppTheme.inputBackground,
+                        color: isSelected
+                            ? AppTheme.accent
+                            : AppTheme.inputBackground,
                         borderRadius: BorderRadius.circular(30.r), // Pill shape
                       ),
                       child: Row(
@@ -270,7 +293,9 @@ class _RegistrationScreen3State extends State<RegistrationScreen3> {
                           // Main Icon
                           Icon(
                             icon,
-                            color: isSelected ? AppTheme.buttonForeground : AppTheme.text2,
+                            color: isSelected
+                                ? AppTheme.buttonForeground
+                                : AppTheme.text2,
                             size: 20.sp,
                           ),
                           SizedBox(width: 8.w),
@@ -279,7 +304,9 @@ class _RegistrationScreen3State extends State<RegistrationScreen3> {
                           Text(
                             label,
                             style: TextStyle(
-                              color: isSelected ? AppTheme.buttonForeground : AppTheme.text2,
+                              color: isSelected
+                                  ? AppTheme.buttonForeground
+                                  : AppTheme.text2,
                               fontSize: 15.sp,
                               fontWeight: FontWeight.w500,
                             ),
@@ -300,7 +327,6 @@ class _RegistrationScreen3State extends State<RegistrationScreen3> {
                   );
                 }).toList(),
               ),
-
             ],
           ),
         ),

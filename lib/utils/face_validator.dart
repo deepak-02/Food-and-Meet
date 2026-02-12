@@ -48,7 +48,6 @@ class FaceValidator {
 
       // If all checks pass
       return null;
-
     } catch (e) {
       return "Error processing image: $e";
     }

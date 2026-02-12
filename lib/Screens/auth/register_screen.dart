@@ -29,22 +29,21 @@ class RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _bioController = TextEditingController();
   final List<File?> images = [null, null, null, null];
 
-  bool termsAccepted = false;
+  String? _selectedGender;
 
+  bool termsAccepted = false;
 
   // ERROR NOTIFIERS
   final ValueNotifier<String?> _nameError = ValueNotifier<String?>(null);
   final ValueNotifier<String?> _phoneError = ValueNotifier<String?>(null);
   final ValueNotifier<String?> _addressError = ValueNotifier<String?>(null);
   final ValueNotifier<String?> _dobError = ValueNotifier<String?>(null);
-
   final ValueNotifier<String?> _imageError = ValueNotifier<String?>(null);
-
   final ValueNotifier<String?> _interestsError = ValueNotifier<String?>(null);
+  final ValueNotifier<String?> _genderError = ValueNotifier<String?>(null);
 
   // The list of available options with their icons
   final List<Map<String, dynamic>> interests = [
-
     // Top Requests
     {'label': 'Mandi', 'icon': Icons.rice_bowl},
     {'label': 'Biryani', 'icon': Icons.dinner_dining},
@@ -57,6 +56,7 @@ class RegisterScreenState extends State<RegisterScreen> {
     {'label': 'Dosa', 'icon': Icons.breakfast_dining},
     {'label': 'Seafood', 'icon': Icons.set_meal},
     {'label': 'Juice', 'icon': Icons.local_bar},
+
     // {'label': 'Shawarma', 'icon': Icons.kebab_dining},
     // {'label': 'Porotta', 'icon': Icons.bakery_dining},
     // {'label': 'Al Faham', 'icon': Icons.local_fire_department},
@@ -64,14 +64,12 @@ class RegisterScreenState extends State<RegisterScreen> {
     // {'label': 'Spicy', 'icon': Icons.local_fire_department_rounded},
     // {'label': 'Vegan', 'icon': Icons.eco_rounded},
     // {'label': 'Burgers', 'icon': Icons.lunch_dining_rounded},
-
   ];
 
   final Set<String> selectedInterests = {};
 
   // State to track the current page index (0 to 3)
   int _currentPage = 0;
-
 
   // VALIDATION LOGIC FOR STEP 1
   bool _validateStep1() {
@@ -93,6 +91,14 @@ class RegisterScreenState extends State<RegisterScreen> {
       _phoneError.value = null;
     }
 
+    // Validate Gender
+    if (_selectedGender == null) {
+      _genderError.value = "Please select a gender";
+      isValid = false;
+    } else {
+      _genderError.value = null;
+    }
+
     // validate dob
     if (_dobController.text.trim().isEmpty) {
       _dobError.value = "Date of birth is required";
@@ -112,7 +118,7 @@ class RegisterScreenState extends State<RegisterScreen> {
     return isValid;
   }
 
- // VALIDATION LOGIC FOR STEP 2
+  // VALIDATION LOGIC FOR STEP 2
   bool _validateStep2() {
     //  Check if at least 1 image (the main one) is uploaded
     if (images[0] == null) {
@@ -141,7 +147,6 @@ class RegisterScreenState extends State<RegisterScreen> {
     _interestsError.value = null;
     return true;
   }
-
 
   // Helper to handle Back Button Logic
   void _handleBack() {
@@ -172,8 +177,6 @@ class RegisterScreenState extends State<RegisterScreen> {
     if (_currentPage == 2) {
       if (!_validateStep3()) return;
     }
-
-
 
     if (_currentPage < 3) {
       // If not on last page, go to next page
@@ -214,7 +217,6 @@ class RegisterScreenState extends State<RegisterScreen> {
     debugPrint("---------------- REGISTRATION DATA ----------------");
     debugPrint(registrationData.toString());
     debugPrint("---------------------------------------------------");
-
   }
 
   @override
@@ -313,9 +315,19 @@ class RegisterScreenState extends State<RegisterScreen> {
                             phoneError: _phoneError,
                             addressError: _addressError,
                             dobError: _dobError,
+                            selectedGender: _selectedGender,
+                            onGenderChanged: (val) {
+                              setState(() {
+                                _selectedGender = val;
+                              });
+                            },
+                            genderError: _genderError,
                           ),
 
-                          RegistrationScreen2(images: images, imageError: _imageError),
+                          RegistrationScreen2(
+                            images: images,
+                            imageError: _imageError,
+                          ),
 
                           RegistrationScreen3(
                             selectedInterests: selectedInterests,

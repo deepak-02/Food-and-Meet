@@ -36,7 +36,6 @@ class InputField extends StatelessWidget {
   final int? maxLength;
   final String? errorText;
 
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -62,17 +61,15 @@ class InputField extends StatelessWidget {
             inputFormatters: inputFormatters,
             keyboardType: keyboardType ?? TextInputType.text,
             textInputAction: textInputAction ?? TextInputAction.done,
-            textCapitalization: textCapitalization ?? TextCapitalization.sentences,
+            textCapitalization:
+                textCapitalization ?? TextCapitalization.sentences,
             maxLength: maxLength,
 
             decoration: InputDecoration(
               filled: true,
               fillColor: AppTheme.inputBackground, // background color
               hintText: hint,
-              hintStyle: TextStyle(
-                color: AppTheme.hint,
-                fontSize: 16.sp,
-              ),
+              hintStyle: TextStyle(color: AppTheme.hint, fontSize: 16.sp),
               counterText: "",
 
               errorText: errorText,
@@ -119,20 +116,24 @@ class InputField extends StatelessWidget {
                 padding: EdgeInsets.only(left: 12.0.w, right: 8.0.w),
                 child: Icon(
                   icon,
-                  color: errorText != null ? AppTheme.errorColor : AppTheme.hint,
+                  color: errorText != null
+                      ? AppTheme.errorColor
+                      : AppTheme.hint,
                   size: 20.sp,
                 ),
               ),
 
-              suffixIcon: suffixIcon == null ? null : IconButton(
-                onPressed: onPressed,
-                tooltip: tooltip,
-                icon: Icon(
-                  suffixIcon,
-                  color: AppTheme.accent,
-                  size: 20.sp,
-                ),
-              ),
+              suffixIcon: suffixIcon == null
+                  ? null
+                  : IconButton(
+                      onPressed: onPressed,
+                      tooltip: tooltip,
+                      icon: Icon(
+                        suffixIcon,
+                        color: AppTheme.accent,
+                        size: 20.sp,
+                      ),
+                    ),
 
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16.r),

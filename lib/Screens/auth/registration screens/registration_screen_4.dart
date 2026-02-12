@@ -7,8 +7,19 @@ import '../../../theme/app_theme.dart';
 import '../../../widgets/preview_field.dart';
 
 class RegistrationScreen4 extends StatefulWidget {
-  const RegistrationScreen4({super.key, required this.name, required this.phone, required this.dob, required this.address, required this.bio, required this.selectedInterests, required this.images, required this.allInterests, required this.termsAccepted, required this.onTermsChanged});
-
+  const RegistrationScreen4({
+    super.key,
+    required this.name,
+    required this.phone,
+    required this.dob,
+    required this.address,
+    required this.bio,
+    required this.selectedInterests,
+    required this.images,
+    required this.allInterests,
+    required this.termsAccepted,
+    required this.onTermsChanged,
+  });
 
   final String name;
   final String phone;
@@ -26,8 +37,6 @@ class RegistrationScreen4 extends StatefulWidget {
 }
 
 class _RegistrationScreen4State extends State<RegistrationScreen4> {
-
-
   int calculateAge(String dobString) {
     try {
       // 1. Clean the string: " 12 / 05 / 2000 " -> "12/05/2000"
@@ -48,7 +57,8 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
       int age = today.year - dob.year;
 
       // 4. Adjust if birthday hasn't happened yet this year
-      if (today.month < dob.month || (today.month == dob.month && today.day < dob.day)) {
+      if (today.month < dob.month ||
+          (today.month == dob.month && today.day < dob.day)) {
         age--;
       }
 
@@ -61,10 +71,10 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
 
   @override
   Widget build(BuildContext context) {
-// Helper to get icon for a selected interest string
+    // Helper to get icon for a selected interest string
     IconData getIconForLabel(String label) {
       final interest = widget.allInterests.firstWhere(
-            (element) => element['label'] == label,
+        (element) => element['label'] == label,
         orElse: () => {'icon': Icons.star}, // Default fallback
       );
       return interest['icon'];
@@ -72,7 +82,9 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
 
     // Prepare images for display (ensure we don't crash if null)
     File? mainImage = widget.images.isNotEmpty ? widget.images[0] : null;
-    List<File?> sideImages = widget.images.length > 1 ? widget.images.sublist(1) : [];
+    List<File?> sideImages = widget.images.length > 1
+        ? widget.images.sublist(1)
+        : [];
 
     return SingleChildScrollView(
       child: Padding(
@@ -100,10 +112,11 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
             ),
             SizedBox(height: 20.h),
 
-
             // 2. Profile images section
             ClipRRect(
-              borderRadius: BorderRadius.circular(24.r), // The outer rounded corners
+              borderRadius: BorderRadius.circular(
+                24.r,
+              ), // The outer rounded corners
               child: Container(
                 height: 250.h,
                 color: AppTheme.text1, // Color of the grid lines (gaps)
@@ -121,16 +134,16 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
                           mainImage != null
                               ? Image.file(mainImage, fit: BoxFit.cover)
                               : Container(
-                            width: double.infinity,
-                            color: Colors.grey[300], // Grey background
-                            child: Center(
-                              child: Icon(
-                                Icons.image, // The generic image icon
-                                color: Colors.grey[600],
-                                size: 24.sp,
-                              ),
-                            ),
-                          ),
+                                  width: double.infinity,
+                                  color: Colors.grey[300], // Grey background
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.image, // The generic image icon
+                                      color: Colors.grey[600],
+                                      size: 24.sp,
+                                    ),
+                                  ),
+                                ),
 
                           // 2. The Gradient Overlay (Optional, makes text readable)
                           Positioned(
@@ -143,7 +156,10 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
                                 gradient: LinearGradient(
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
-                                  colors: [Colors.transparent, Colors.black.withValues(alpha: 0.4)],
+                                  colors: [
+                                    Colors.transparent,
+                                    Colors.black.withValues(alpha: 0.4),
+                                  ],
                                 ),
                               ),
                             ),
@@ -157,14 +173,23 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
                               children: [
                                 // Verified Badge
                                 Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w,
+                                    vertical: 4.h,
+                                  ),
                                   decoration: BoxDecoration(
-                                    color: AppTheme.accent.withValues(alpha: 0.3),
+                                    color: AppTheme.accent.withValues(
+                                      alpha: 0.3,
+                                    ),
                                     borderRadius: BorderRadius.circular(8.r),
                                   ),
                                   child: Row(
                                     children: [
-                                      Icon(Icons.verified, color: AppTheme.accent, size: 14.sp),
+                                      Icon(
+                                        Icons.verified,
+                                        color: AppTheme.accent,
+                                        size: 14.sp,
+                                      ),
                                       SizedBox(width: 4.w),
                                       Text(
                                         "Verified",
@@ -182,9 +207,14 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
 
                                 // Age Badge
                                 Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 10.w,
+                                    vertical: 4.h,
+                                  ),
                                   decoration: BoxDecoration(
-                                    color: Colors.black.withValues(alpha: 0.6), // Semi-transparent black
+                                    color: Colors.black.withValues(
+                                      alpha: 0.6,
+                                    ), // Semi-transparent black
                                     borderRadius: BorderRadius.circular(12.r),
                                   ),
                                   child: Text(
@@ -215,55 +245,70 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
                         children: [
                           // Top Right
                           Expanded(
-                            child: sideImages.isNotEmpty && sideImages[0] != null
-                                ? Image.file(sideImages[0]!, fit: BoxFit.cover, width: double.infinity)
+                            child:
+                                sideImages.isNotEmpty && sideImages[0] != null
+                                ? Image.file(
+                                    sideImages[0]!,
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                  )
                                 : Container(
-                              width: double.infinity,
-                              color: Colors.grey[300], // Grey background
-                              child: Center(
-                                child: Icon(
-                                  Icons.image, // The generic image icon
-                                  color: Colors.grey[600],
-                                  size: 24.sp,
-                                ),
-                              ),
-                            ),
+                                    width: double.infinity,
+                                    color: Colors.grey[300], // Grey background
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.image, // The generic image icon
+                                        color: Colors.grey[600],
+                                        size: 24.sp,
+                                      ),
+                                    ),
+                                  ),
                           ),
                           SizedBox(height: 2.h),
 
                           // Middle Right
                           Expanded(
-                            child: sideImages.length > 1 && sideImages[1] != null
-                                ? Image.file(sideImages[1]!, fit: BoxFit.cover, width: double.infinity)
+                            child:
+                                sideImages.length > 1 && sideImages[1] != null
+                                ? Image.file(
+                                    sideImages[1]!,
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                  )
                                 : Container(
-                              width: double.infinity,
-                              color: Colors.grey[300], // Grey background
-                              child: Center(
-                                child: Icon(
-                                  Icons.image, // The generic image icon
-                                  color: Colors.grey[600],
-                                  size: 24.sp,
-                                ),
-                              ),
-                            ),
+                                    width: double.infinity,
+                                    color: Colors.grey[300], // Grey background
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.image, // The generic image icon
+                                        color: Colors.grey[600],
+                                        size: 24.sp,
+                                      ),
+                                    ),
+                                  ),
                           ),
                           SizedBox(height: 2.h),
 
                           // Bottom Right (Placeholder or 3rd side image)
                           Expanded(
-                            child: sideImages.length > 2 && sideImages[2] != null
-                                ? Image.file(sideImages[2]!, fit: BoxFit.cover, width: double.infinity)
+                            child:
+                                sideImages.length > 2 && sideImages[2] != null
+                                ? Image.file(
+                                    sideImages[2]!,
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                  )
                                 : Container(
-                              width: double.infinity,
-                              color: Colors.grey[300], // Grey background
-                              child: Center(
-                                child: Icon(
-                                  Icons.image, // The generic image icon
-                                  color: Colors.grey[600],
-                                  size: 24.sp,
-                                ),
-                              ),
-                            ),
+                                    width: double.infinity,
+                                    color: Colors.grey[300], // Grey background
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.image, // The generic image icon
+                                        color: Colors.grey[600],
+                                        size: 24.sp,
+                                      ),
+                                    ),
+                                  ),
                           ),
                         ],
                       ),
@@ -298,10 +343,7 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
 
             Text(
               "Cravings & Interests",
-              style: TextStyle(
-                color: AppTheme.text1,
-                fontSize: 16.sp,
-              ),
+              style: TextStyle(color: AppTheme.text1, fontSize: 16.sp),
             ),
             SizedBox(height: 8.h),
             Wrap(
@@ -309,7 +351,10 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
               runSpacing: 12.h,
               children: widget.selectedInterests.map((label) {
                 return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 12.h,
+                  ),
                   decoration: BoxDecoration(
                     color: AppTheme.inputBackground,
                     border: Border.all(color: AppTheme.accent, width: 1.w),
@@ -342,18 +387,11 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
 
             Row(
               children: [
-                Icon(
-                  Icons.lock,
-                  color: AppTheme.text1,
-                  size: 20.sp,
-                ),
+                Icon(Icons.lock, color: AppTheme.text1, size: 20.sp),
                 SizedBox(width: 8.w),
                 Text(
                   "Private details",
-                  style: TextStyle(
-                    color: AppTheme.text1,
-                    fontSize: 16.sp,
-                  ),
+                  style: TextStyle(color: AppTheme.text1, fontSize: 16.sp),
                 ),
               ],
             ),
@@ -366,7 +404,6 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
               decoration: BoxDecoration(
                 color: Color(0xBB2C2C2E),
                 borderRadius: BorderRadius.circular(20.r),
-
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -396,8 +433,8 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
                     icon: Icons.home,
                   ),
                   SizedBox(height: 10.h),
-                ]
-            ),
+                ],
+              ),
             ),
 
             SizedBox(height: 20.h),
@@ -439,9 +476,10 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
                   child: RichText(
                     text: TextSpan(
                       style: TextStyle(
-                          color: AppTheme.text2,
-                          fontSize: 14.sp,
-                          height: 1.5),
+                        color: AppTheme.text2,
+                        fontSize: 14.sp,
+                        height: 1.5,
+                      ),
                       children: [
                         const TextSpan(text: "I agree to the "),
                         TextSpan(
@@ -478,12 +516,10 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
                 ),
               ],
             ),
-            SizedBox(height: 20.h,)
-
+            SizedBox(height: 20.h),
           ],
         ),
       ),
     );
   }
 }
-

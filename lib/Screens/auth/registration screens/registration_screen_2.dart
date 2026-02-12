@@ -7,7 +7,11 @@ import '../../../theme/app_theme.dart';
 import '../../../widgets/photo_upload_grid.dart';
 
 class RegistrationScreen2 extends StatelessWidget {
-  const RegistrationScreen2({super.key, required this.images, required this.imageError});
+  const RegistrationScreen2({
+    super.key,
+    required this.images,
+    required this.imageError,
+  });
 
   final List<File?> images;
   final ValueNotifier<String?> imageError;
@@ -80,15 +84,24 @@ class RegistrationScreen2 extends StatelessWidget {
                 return Container(
                   width: double.infinity,
                   margin: EdgeInsets.only(bottom: 20.h),
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 12.h,
+                  ),
                   decoration: BoxDecoration(
-                    color: AppTheme.errorColor.withValues(alpha: 0.1), // Light red background
+                    color: AppTheme.errorColor.withValues(
+                      alpha: 0.1,
+                    ), // Light red background
                     borderRadius: BorderRadius.circular(12.r),
                     border: Border.all(color: AppTheme.errorColor, width: 1),
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.error_outline, color: AppTheme.errorColor, size: 20.sp),
+                      Icon(
+                        Icons.error_outline,
+                        color: AppTheme.errorColor,
+                        size: 20.sp,
+                      ),
                       SizedBox(width: 12.w),
                       Expanded(
                         child: Text(

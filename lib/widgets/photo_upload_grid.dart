@@ -243,7 +243,11 @@ class _PhotoUploadCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: Icon(Icons.add, color: AppTheme.buttonForeground, size: 28.sp),
+                    child: Icon(
+                      Icons.add,
+                      color: AppTheme.buttonForeground,
+                      size: 28.sp,
+                    ),
                   ),
                   SizedBox(height: 8.h),
                   Text(
