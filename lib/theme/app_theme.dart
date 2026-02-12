@@ -7,13 +7,10 @@ class AppTheme {
   static final Color text2 = Colors.grey;
   static final Color text3 = Colors.white.withValues(alpha: 0.5);
   static final Color text4 = Colors.white24;
-
   static final Color inputBackground = Color(0xBB2C2C2E);
   static final Color hint = Colors.white.withValues(alpha: 0.4);
-
   static final Color buttonForeground = Colors.black;
   static final scaffoldBackgroundColor = Colors.black;
-
 
 
   static ThemeData dark = ThemeData(
