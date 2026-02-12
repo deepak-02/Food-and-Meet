@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../theme/app_theme.dart'; // Required package
+import '../theme/app_theme.dart';
+import '../utils/face_validator.dart'; // Required package
 
 class ImageUploadGrid extends StatefulWidget {
   const ImageUploadGrid({super.key, required this.images});
@@ -22,16 +23,45 @@ class _ImageUploadGridState extends State<ImageUploadGrid> {
   // Function to pick image
   Future<void> _pickImage(int index, ImageSource source) async {
     try {
-      final XFile? pickedFile = await _picker.pickImage(source: source);
+      final XFile? pickedFile = await _picker.pickImage(
+        source: source,
+        imageQuality: 50, // Reduce size for faster processing
+      );
       if (pickedFile != null) {
+        File file = File(pickedFile.path);
+        // --- VALIDATION START ---
+        // Show loading indicator if needed
+
+        String? error = await FaceValidator.validateFace(file);
+
+        if (error != null) {
+          // Show error to user
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(error),
+                backgroundColor: AppTheme.errorColor,
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          }
+          return; // Stop execution, don't add the image
+        }
+        // --- VALIDATION END ---
         setState(() {
-          _images[index] = File(pickedFile.path);
-          widget.images[index] = File(pickedFile.path);
+          _images[index] = file;
+          widget.images[index] = file;
         });
       }
     } catch (e) {
       debugPrint("Error picking image: $e");
     }
+  }
+
+  @override
+  void dispose() {
+    FaceValidator.dispose(); // Cleanup ML Kit resources
+    super.dispose();
   }
 
   // Show dialog to choose Camera or Gallery

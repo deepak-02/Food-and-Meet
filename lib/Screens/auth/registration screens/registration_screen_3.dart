@@ -4,51 +4,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../theme/app_theme.dart';
 
 class RegistrationScreen3 extends StatefulWidget {
-  const RegistrationScreen3({super.key});
+  const RegistrationScreen3({super.key, required this.selectedInterests, required this.controller, required this.interests, required this.errorNotifier});
+
+  final Set<String> selectedInterests;
+  final TextEditingController controller;
+  final List<Map<String, dynamic>> interests;
+
+  final ValueNotifier<String?> errorNotifier;
 
   @override
   State<RegistrationScreen3> createState() => _RegistrationScreen3State();
 }
 
 class _RegistrationScreen3State extends State<RegistrationScreen3> {
-  final TextEditingController _controller = TextEditingController();
   final int maxLength = 150;
-
-
-  // 1. The list of available options with their icons
-  final List<Map<String, dynamic>> _options = [
-
-    // Top Requests
-    {'label': 'Mandi', 'icon': Icons.rice_bowl},
-    {'label': 'Biryani', 'icon': Icons.dinner_dining},
-    {'label': 'Coffee', 'icon': Icons.coffee_rounded},
-    {'label': 'Chai', 'icon': Icons.emoji_food_beverage},
-    {'label': 'Snacks', 'icon': Icons.fastfood},
-    {'label': 'Desserts', 'icon': Icons.cake},
-    {'label': 'Pizza', 'icon': Icons.local_pizza},
-    {'label': 'Meals', 'icon': Icons.bento},
-    {'label': 'Dosa', 'icon': Icons.breakfast_dining},
-    {'label': 'Seafood', 'icon': Icons.set_meal},
-    {'label': 'Juice', 'icon': Icons.local_bar},
-    // {'label': 'Shawarma', 'icon': Icons.kebab_dining},
-    // {'label': 'Porotta', 'icon': Icons.bakery_dining},
-    // {'label': 'Al Faham', 'icon': Icons.local_fire_department},
-    // {'label': 'Ramen', 'icon': Icons.ramen_dining},
-    // {'label': 'Spicy', 'icon': Icons.local_fire_department_rounded},
-    // {'label': 'Vegan', 'icon': Icons.eco_rounded},
-    // {'label': 'Burgers', 'icon': Icons.lunch_dining_rounded},
-
-  ];
-
-  // 2. Set to track selected items (using Set prevents duplicates)
-  final Set<String> _selectedOptions = {};
-
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,6 +81,39 @@ class _RegistrationScreen3State extends State<RegistrationScreen3> {
 
               SizedBox(height: 20.h),
 
+              ValueListenableBuilder<String?>(
+                valueListenable: widget.errorNotifier,
+                builder: (context, error, child) {
+                  if (error == null) return const SizedBox.shrink();
+                  return Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(bottom: 20.h),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                    decoration: BoxDecoration(
+                      color: AppTheme.errorColor.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(color: AppTheme.errorColor, width: 1),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.error_outline, color: AppTheme.errorColor, size: 20.sp),
+                        SizedBox(width: 12.w),
+                        Expanded(
+                          child: Text(
+                            error,
+                            style: TextStyle(
+                              color: AppTheme.errorColor,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+
               // 2. The Input Field
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,7 +142,7 @@ class _RegistrationScreen3State extends State<RegistrationScreen3> {
                           ],
                         ),
                         child: TextField(
-                          controller: _controller,
+                          controller: widget.controller,
                           maxLength: maxLength,
                           maxLines: 4, // Gives it the height shown in image
                           style: TextStyle(
@@ -179,7 +181,7 @@ class _RegistrationScreen3State extends State<RegistrationScreen3> {
                         bottom: 12.h,
                         right: 12.w,
                         child: ValueListenableBuilder<TextEditingValue>(
-                          valueListenable: _controller,
+                          valueListenable: widget.controller,
                           builder: (context, value, child) {
                             return Container(
                               padding: EdgeInsets.symmetric(
@@ -237,18 +239,20 @@ class _RegistrationScreen3State extends State<RegistrationScreen3> {
               Wrap(
                 spacing: 12.w, // Horizontal gap between chips
                 runSpacing: 12.h, // Vertical gap between lines
-                children: _options.map((option) {
+                children: widget.interests.map((option) {
                   final String label = option['label'];
                   final IconData icon = option['icon'];
-                  final bool isSelected = _selectedOptions.contains(label);
+                  final bool isSelected = widget.selectedInterests.contains(label);
 
                   return GestureDetector(
                     onTap: () {
                       setState(() {
                         if (isSelected) {
-                          _selectedOptions.remove(label);
+                          // _selectedOptions.remove(label);
+                          widget.selectedInterests.remove(label);
                         } else {
-                          _selectedOptions.add(label);
+                          // _selectedOptions.add(label);
+                          widget.selectedInterests.add(label);
                         }
                       });
                     },

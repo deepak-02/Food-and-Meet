@@ -7,9 +7,10 @@ import '../../../theme/app_theme.dart';
 import '../../../widgets/photo_upload_grid.dart';
 
 class RegistrationScreen2 extends StatelessWidget {
-  const RegistrationScreen2({super.key, required this.images});
+  const RegistrationScreen2({super.key, required this.images, required this.imageError});
 
   final List<File?> images;
+  final ValueNotifier<String?> imageError;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -69,6 +70,41 @@ class RegistrationScreen2 extends StatelessWidget {
             ),
 
             SizedBox(height: 20.h),
+
+            ValueListenableBuilder<String?>(
+              valueListenable: imageError,
+              builder: (context, error, child) {
+                // If no error, return empty space
+                if (error == null) return const SizedBox.shrink();
+
+                return Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.only(bottom: 20.h),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                  decoration: BoxDecoration(
+                    color: AppTheme.errorColor.withValues(alpha: 0.1), // Light red background
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(color: AppTheme.errorColor, width: 1),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.error_outline, color: AppTheme.errorColor, size: 20.sp),
+                      SizedBox(width: 12.w),
+                      Expanded(
+                        child: Text(
+                          error,
+                          style: TextStyle(
+                            color: AppTheme.errorColor,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
 
             ImageUploadGrid(images: images),
           ],

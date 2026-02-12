@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/gestures.dart';
@@ -5,27 +7,72 @@ import '../../../theme/app_theme.dart';
 import '../../../widgets/preview_field.dart';
 
 class RegistrationScreen4 extends StatefulWidget {
-  const RegistrationScreen4({super.key});
+  const RegistrationScreen4({super.key, required this.name, required this.phone, required this.dob, required this.address, required this.bio, required this.selectedInterests, required this.images, required this.allInterests, required this.termsAccepted, required this.onTermsChanged});
 
+
+  final String name;
+  final String phone;
+  final String dob;
+  final String address;
+  final String bio;
+  final Set<String> selectedInterests;
+  final List<File?> images;
+  final List<Map<String, dynamic>> allInterests;
+
+  final bool termsAccepted;
+  final ValueChanged<bool> onTermsChanged;
   @override
   State<RegistrationScreen4> createState() => _RegistrationScreen4State();
 }
 
 class _RegistrationScreen4State extends State<RegistrationScreen4> {
 
-  final List<Map<String, dynamic>> options = [
-    {'label': 'Mandi', 'icon': Icons.rice_bowl},
-    {'label': 'Biryani', 'icon': Icons.dinner_dining},
-    {'label': 'Coffee', 'icon': Icons.coffee_rounded},
-    {'label': 'Pizza', 'icon': Icons.local_pizza},
-    {'label': 'Meals', 'icon': Icons.bento},
-  ];
 
-  bool _isChecked = false;
+  int calculateAge(String dobString) {
+    try {
+      // 1. Clean the string: " 12 / 05 / 2000 " -> "12/05/2000"
+      String cleanDate = dobString.replaceAll(' ', '');
+
+      // 2. Split into [Day, Month, Year]
+      List<String> parts = cleanDate.split('/');
+      if (parts.length != 3) return 0;
+
+      int day = int.parse(parts[0]);
+      int month = int.parse(parts[1]);
+      int year = int.parse(parts[2]);
+
+      DateTime dob = DateTime(year, month, day);
+      DateTime today = DateTime.now();
+
+      // 3. Basic calculation
+      int age = today.year - dob.year;
+
+      // 4. Adjust if birthday hasn't happened yet this year
+      if (today.month < dob.month || (today.month == dob.month && today.day < dob.day)) {
+        age--;
+      }
+
+      return age;
+    } catch (e) {
+      // Fallback if date is empty or invalid
+      return 0;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+// Helper to get icon for a selected interest string
+    IconData getIconForLabel(String label) {
+      final interest = widget.allInterests.firstWhere(
+            (element) => element['label'] == label,
+        orElse: () => {'icon': Icons.star}, // Default fallback
+      );
+      return interest['icon'];
+    }
 
+    // Prepare images for display (ensure we don't crash if null)
+    File? mainImage = widget.images.isNotEmpty ? widget.images[0] : null;
+    List<File?> sideImages = widget.images.length > 1 ? widget.images.sublist(1) : [];
 
     return SingleChildScrollView(
       child: Padding(
@@ -71,9 +118,18 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
                         fit: StackFit.expand,
                         children: [
                           // 1. The Main Image
-                          Image.network(
-                            'https://img.freepik.com/free-vector/smiling-young-man-illustration_1308-174669.jpg',
-                            fit: BoxFit.cover,
+                          mainImage != null
+                              ? Image.file(mainImage, fit: BoxFit.cover)
+                              : Container(
+                            width: double.infinity,
+                            color: Colors.grey[300], // Grey background
+                            child: Center(
+                              child: Icon(
+                                Icons.image, // The generic image icon
+                                color: Colors.grey[600],
+                                size: 24.sp,
+                              ),
+                            ),
                           ),
 
                           // 2. The Gradient Overlay (Optional, makes text readable)
@@ -132,7 +188,7 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
                                     borderRadius: BorderRadius.circular(12.r),
                                   ),
                                   child: Text(
-                                    "28 y/o",
+                                    "${calculateAge(widget.dob)} y/o",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 12.sp,
@@ -157,31 +213,47 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
                       flex: 1,
                       child: Column(
                         children: [
-                          // Top Right Image (Ramen)
+                          // Top Right
                           Expanded(
-                            child: Image.network(
-                              'https://img.freepik.com/free-photo/delicious-japanese-ramen-noodle-soup_1150-16164.jpg',
-                              fit: BoxFit.cover,
+                            child: sideImages.isNotEmpty && sideImages[0] != null
+                                ? Image.file(sideImages[0]!, fit: BoxFit.cover, width: double.infinity)
+                                : Container(
                               width: double.infinity,
+                              color: Colors.grey[300], // Grey background
+                              child: Center(
+                                child: Icon(
+                                  Icons.image, // The generic image icon
+                                  color: Colors.grey[600],
+                                  size: 24.sp,
+                                ),
+                              ),
                             ),
                           ),
+                          SizedBox(height: 2.h),
 
-                          SizedBox(height: 2.h), // Gap
-
-                          // Middle Right Image (Interior)
+                          // Middle Right
                           Expanded(
-                            child: Image.network(
-                              'https://img.freepik.com/free-photo/restaurant-interior_1127-3394.jpg',
-                              fit: BoxFit.cover,
+                            child: sideImages.length > 1 && sideImages[1] != null
+                                ? Image.file(sideImages[1]!, fit: BoxFit.cover, width: double.infinity)
+                                : Container(
                               width: double.infinity,
+                              color: Colors.grey[300], // Grey background
+                              child: Center(
+                                child: Icon(
+                                  Icons.image, // The generic image icon
+                                  color: Colors.grey[600],
+                                  size: 24.sp,
+                                ),
+                              ),
                             ),
                           ),
+                          SizedBox(height: 2.h),
 
-                          SizedBox(height: 2.h), // Gap
-
-                          // Bottom Right (Placeholder / "More" images)
+                          // Bottom Right (Placeholder or 3rd side image)
                           Expanded(
-                            child: Container(
+                            child: sideImages.length > 2 && sideImages[2] != null
+                                ? Image.file(sideImages[2]!, fit: BoxFit.cover, width: double.infinity)
+                                : Container(
                               width: double.infinity,
                               color: Colors.grey[300], // Grey background
                               child: Center(
@@ -205,7 +277,7 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
 
             // 3. Details Section
             Text(
-              "Name",
+              widget.name.isNotEmpty ? widget.name : "Your Name",
               style: TextStyle(
                 color: AppTheme.text1,
                 fontSize: 20.sp,
@@ -214,7 +286,7 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
               ),
             ),
             Text(
-              "I'm a ramen enthusiast looking for spicy adventures and hidden gems in the city. Always down for a late- night food run! 🍝🌶️",
+              widget.bio.isNotEmpty ? widget.bio : "No bio provided yet...",
               style: TextStyle(
                 color: AppTheme.text2,
                 fontSize: 14.sp,
@@ -233,33 +305,25 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
             ),
             SizedBox(height: 8.h),
             Wrap(
-              spacing: 12.w, // Horizontal gap between chips
-              runSpacing: 12.h, // Vertical gap between lines
-              children: options.map((option) {
-                final String label = option['label'];
-                final IconData icon = option['icon'];
-
-                return AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
+              spacing: 12.w,
+              runSpacing: 12.h,
+              children: widget.selectedInterests.map((label) {
+                return Container(
                   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
                   decoration: BoxDecoration(
-                    // Dynamic Color: Bright Green if selected, Light Grey if not
                     color: AppTheme.inputBackground,
                     border: Border.all(color: AppTheme.accent, width: 1.w),
-                    borderRadius: BorderRadius.circular(30.r), // Pill shape
+                    borderRadius: BorderRadius.circular(30.r),
                   ),
                   child: Row(
-                    mainAxisSize: MainAxisSize.min, // Shrink to fit content
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Main Icon
                       Icon(
-                        icon,
+                        getIconForLabel(label),
                         color: AppTheme.accent,
                         size: 20.sp,
                       ),
                       SizedBox(width: 8.w),
-
-                      // Label Text
                       Text(
                         label,
                         style: TextStyle(
@@ -268,7 +332,6 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-
                     ],
                   ),
                 );
@@ -310,7 +373,7 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
                 children: [
                   PreviewDetailField(
                     name: "Phone Number",
-                    value: "9087654321",
+                    value: widget.phone,
                     icon: Icons.phone,
                   ),
                   // SizedBox(height: 10.h),
@@ -322,14 +385,14 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
                   SizedBox(height: 10.h),
                   PreviewDetailField(
                     name: "DOB",
-                    value: "28/08/2002",
+                    value: widget.dob,
                     icon: Icons.calendar_month,
                   ),
 
                   SizedBox(height: 10.h),
                   PreviewDetailField(
                     name: "Address",
-                    value: "H. No-162, Hari Nagar Society Dabholi Road, Near Govind Ji Hall Katargam, Surat, Gujarat",
+                    value: widget.address,
                     icon: Icons.home,
                   ),
                   SizedBox(height: 10.h),
@@ -341,52 +404,46 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
 
             // 4. Terms & Conditions
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start, // Align to top in case text wraps
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 1. Custom Rounded Checkbox
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      _isChecked = !_isChecked;
-                    });
+                    // Use widget.onTermsChanged to call the parent
+                    widget.onTermsChanged(!widget.termsAccepted);
                   },
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
                     width: 24.w,
                     height: 24.w,
                     decoration: BoxDecoration(
-                      // Green if checked, Transparent if not
-                      color: _isChecked ? AppTheme.accent : Colors.transparent,
+                      // Use widget.termsAccepted
+                      color: widget.termsAccepted
+                          ? AppTheme.accent
+                          : Colors.transparent,
                       borderRadius: BorderRadius.circular(8.r),
                       border: Border.all(
-                        // Green border if checked, Grey border if not
-                        color: _isChecked ? AppTheme.accent : AppTheme.text2,
+                        // Use widget.termsAccepted
+                        color: widget.termsAccepted
+                            ? AppTheme.accent
+                            : AppTheme.text2,
                         width: 2,
                       ),
                     ),
-                    child: _isChecked
+                    child: widget.termsAccepted
                         ? Icon(Icons.check, color: AppTheme.text1, size: 16.sp)
                         : null,
                   ),
                 ),
-
-                SizedBox(width: 12.w), // Gap between checkbox and text
-
-                // 2. Rich Text with Clickable Links
+                SizedBox(width: 12.w),
                 Expanded(
                   child: RichText(
                     text: TextSpan(
-                      // Default Text Style (Grey)
                       style: TextStyle(
-                        color: AppTheme.text2, // Cool Grey
-                        fontSize: 14.sp,
-                        height: 1.5, // Line height for better readability
-                        fontFamily: 'Inter', // Or your app's default font
-                      ),
+                          color: AppTheme.text2,
+                          fontSize: 14.sp,
+                          height: 1.5),
                       children: [
                         const TextSpan(text: "I agree to the "),
-
-                        // Link 1: Terms of Service
                         TextSpan(
                           text: "Terms of Service",
                           style: TextStyle(
@@ -398,13 +455,9 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               debugPrint("Terms of Service Clicked");
-                              // Navigate to Terms page here
                             },
                         ),
-
                         const TextSpan(text: " and "),
-
-                        // Link 2: Community Safety Guidelines
                         TextSpan(
                           text: "Community Safety Guidelines",
                           style: TextStyle(
@@ -416,10 +469,8 @@ class _RegistrationScreen4State extends State<RegistrationScreen4> {
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               debugPrint("Guidelines Clicked");
-                              // Navigate to Guidelines page here
                             },
                         ),
-
                         const TextSpan(text: "."),
                       ],
                     ),

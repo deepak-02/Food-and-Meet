@@ -5,8 +5,9 @@ import '../theme/app_theme.dart';
 
 class DateOfBirthField extends StatelessWidget {
   final TextEditingController controller;
+  final String? errorText;
 
-  const DateOfBirthField({super.key, required this.controller});
+  const DateOfBirthField({super.key, required this.controller, this.errorText});
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +50,47 @@ class DateOfBirthField extends StatelessWidget {
                   size: 20.sp,
                 ),
               ),
+
+              errorText: errorText,
+              errorMaxLines: 2,
+              errorStyle: TextStyle(
+                color: AppTheme.errorColor,
+                fontSize: 12.sp,
+              ),
+
+              // Standard Border (No Error)
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16.r),
+                borderSide: BorderSide.none,
+              ),
+
+              // Focused Border (No Error)
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16.r),
+                borderSide: BorderSide(
+                  color: AppTheme.accent,
+                  width: 1.5,
+                ),
+              ),
+
+              // Error Border (Red)
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16.r),
+                borderSide: const BorderSide(
+                  color: AppTheme.errorColor,
+                  width: 1.0,
+                ),
+              ),
+
+              // Focused Error Border (Red & Thicker)
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16.r),
+                borderSide: const BorderSide(
+                  color: AppTheme.errorColor,
+                  width: 2.0,
+                ),
+              ),
+
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16.r),
                 borderSide: BorderSide.none,

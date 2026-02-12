@@ -13,7 +13,7 @@ class RegistrationScreen1 extends StatelessWidget {
     // required this.aadhaarController,
     required this.addressController,
     required this.dobController,
-    required this.otpController,
+    required this.otpController, required this.nameError, required this.phoneError, required this.addressError, required this.dobError,
   });
 
   final TextEditingController nameController;
@@ -22,6 +22,11 @@ class RegistrationScreen1 extends StatelessWidget {
   final TextEditingController addressController;
   final TextEditingController dobController;
   final TextEditingController otpController;
+
+  final ValueNotifier<String?> nameError;
+  final ValueNotifier<String?> phoneError;
+  final ValueNotifier<String?> addressError;
+  final ValueNotifier<String?> dobError;
 
   @override
   Widget build(BuildContext context) {
@@ -54,30 +59,58 @@ class RegistrationScreen1 extends StatelessWidget {
 
               SizedBox(height: 20.h),
 
-              InputField(
-                name: "Full Name",
-                hint: "John Doe",
-                icon: Icons.person,
-                controller: nameController,
+              ValueListenableBuilder<String?>(
+                valueListenable: nameError,
+                builder: (context, error, child) {
+                  return InputField(
+                    name: "Full Name",
+                    hint: "John Doe",
+                    icon: Icons.person,
+                    controller: nameController,
+                    keyboardType: TextInputType.name,
+                    textInputAction: TextInputAction.next,
+                    textCapitalization: TextCapitalization.words,
+                    maxLength: 30,
+                    errorText: error, // Show error if present
+                  );
+                },
               ),
               SizedBox(height: 20.h),
-              InputField(
-                name: "Phone Number",
-                hint: "9952543212",
-                icon: Icons.phone,
-                suffixIcon: phoneController.text.length == 10 ? Icons.verified_outlined : null,
-                controller: phoneController,
-                onPressed: (){},
-                tooltip: "Verify Phone Number",
-              ),
-              if(phoneController.text.length == 10)
-                SizedBox(height: 20.h),
-              if(phoneController.text.length == 10)
-                InputField(
-                  name: "OTP",
-                  hint: "1234",
-                  icon: Icons.message,
-                  controller: otpController,
+              ValueListenableBuilder<String?>(
+                  valueListenable: phoneError,
+                  builder: (context, error, child) {
+                    return ValueListenableBuilder<TextEditingValue>(
+                      valueListenable: phoneController,
+                      builder: (context, value, child) {
+                        final bool isPhoneValid = value.text.length == 10;
+                        return Column(
+                          children: [
+                            InputField(
+                              name: "Phone Number",
+                              hint: "9952543212",
+                              icon: Icons.phone,
+                              suffixIcon: isPhoneValid ? Icons.verified_outlined : null,
+                              controller: phoneController,
+                              maxLength: 10,
+                              keyboardType: TextInputType.phone,
+                              errorText: error, // Show error if present
+                              onPressed: () {},
+                              tooltip: "Verify Phone Number",
+                            ),
+                            if (isPhoneValid) ...[
+                              SizedBox(height: 20.h),
+                              InputField(
+                                name: "OTP",
+                                hint: "1234",
+                                icon: Icons.message,
+                                controller: otpController,
+                              ),
+                            ],
+                          ],
+                        );
+                      },
+                    );
+                  }
               ),
               // SizedBox(height: 20.h),
               // InputField(
@@ -87,14 +120,27 @@ class RegistrationScreen1 extends StatelessWidget {
               //   controller: aadhaarController,
               // ),
               SizedBox(height: 20.h),
-              DateOfBirthField(controller: dobController),
+              ValueListenableBuilder<String?>(
+                valueListenable: dobError,
+                builder: (context, errorText, child) {
+                  return DateOfBirthField(
+                    controller: dobController,
+                    errorText: errorText,
+                  );
+                },
+              ),
               SizedBox(height: 20.h),
-              InputField(
-                name: "Address",
-                hint:
-                    "H. No-162, Hari Nagar Society Dabholi Road, Near Govind Ji Hall Katargam, Surat, Gujarat - 395004",
-                icon: Icons.home,
-                controller: addressController,
+              ValueListenableBuilder<String?>(
+                valueListenable: addressError,
+                builder: (context, error, child) {
+                  return InputField(
+                    name: "Address",
+                    hint: "H. No-162, Hari Nagar Society...",
+                    icon: Icons.home,
+                    controller: addressController,
+                    errorText: error, // Show error if present
+                  );
+                },
               ),
               SizedBox(height: 20.h),
             ],

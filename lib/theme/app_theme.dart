@@ -10,7 +10,9 @@ class AppTheme {
   static final Color inputBackground = Color(0xBB2C2C2E);
   static final Color hint = Colors.white.withValues(alpha: 0.4);
   static final Color buttonForeground = Colors.black;
-  static final scaffoldBackgroundColor = Colors.black;
+  static final Color scaffoldBackgroundColor = Colors.black;
+
+  static const Color errorColor = Colors.redAccent;
 
 
   static ThemeData dark = ThemeData(
