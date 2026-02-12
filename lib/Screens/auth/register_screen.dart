@@ -206,6 +206,7 @@ class RegisterScreenState extends State<RegisterScreen> {
       "phone": _phoneController.text.trim(),
       "address": _addressController.text.trim(),
       "dob": _dobController.text,
+      "gender": _selectedGender,
       "bio": _bioController.text.trim(),
       "interests": selectedInterests.toList(),
       "termsAccepted": termsAccepted, // <--- Added here
