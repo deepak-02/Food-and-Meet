@@ -149,6 +149,17 @@ class _OTPScreenState extends State<OTPScreen> {
                       child: Column(
                         children: [
                           // Now this Spacer works perfectly!
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              IconButton(
+                                tooltip: 'Back',
+                                onPressed: () => Navigator.pop(context),
+                                icon: Icon(Icons.arrow_back, color: AppTheme.text1),
+                              ),
+
+                            ],
+                          ),
                           const Spacer(flex: 2),
 
                           Container(
