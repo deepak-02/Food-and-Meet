@@ -20,6 +20,7 @@ class InputField extends StatelessWidget {
     this.textCapitalization,
     this.maxLength,
     this.errorText,
+    this.autofillHints,
   });
 
   final String? name;
@@ -35,6 +36,7 @@ class InputField extends StatelessWidget {
   final TextCapitalization? textCapitalization;
   final int? maxLength;
   final String? errorText;
+  final Iterable<String>? autofillHints;
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +66,7 @@ class InputField extends StatelessWidget {
             textCapitalization:
                 textCapitalization ?? TextCapitalization.sentences,
             maxLength: maxLength,
+            autofillHints: autofillHints,
 
             decoration: InputDecoration(
               filled: true,

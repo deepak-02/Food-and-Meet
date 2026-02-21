@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smart_auth/smart_auth.dart';
 
 import '../../theme/app_theme.dart';
+import '../../widgets/input_fields.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _phoneController = TextEditingController();
   final SmartAuth _smartAuth = SmartAuth.instance;
 
+  String? _phoneError;
   @override
   void initState() {
     super.initState();
@@ -158,45 +160,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  "Phone Number",
-                                  style: TextStyle(
-                                    color: AppTheme.text2,
-                                    fontSize: 16.sp,
-                                  ),
-                                ),
-                                SizedBox(height: 10.h),
 
-                                TextField(
-                                  style: TextStyle(color: AppTheme.text1),
-                                  // onTap: () {
-                                  //   if (_phoneController.text.isEmpty) {
-                                  //     _requestPhoneNumberHint();
-                                  //   }
-                                  // },
+                                InputField(
+                                  name: "Phone Number",
+                                  hint: "9952543212",
+                                  icon: Icons.phone,
                                   controller: _phoneController,
                                   keyboardType: TextInputType.phone,
                                   maxLength: 10,
                                   autofillHints: const [AutofillHints.telephoneNumber],
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: AppTheme.inputBackground,
-                                    hintText: "9952543212",
-                                    counterText: "",
-                                    hintStyle: TextStyle(
-                                      color: AppTheme.text1.withValues(
-                                        alpha: 0.3,
-                                      ),
-                                    ),
-                                    suffixIcon: const Icon(
-                                      Icons.phone_iphone,
-                                      color: AppTheme.accent,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12.r),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                  ),
+                                  errorText: _phoneError,
                                 ),
 
                                 SizedBox(height: 20.h),
@@ -275,7 +248,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                       onPressed: () {
                                         debugPrint("continue clicked");
-                                        context.push('/login-otp', extra: _phoneController.text);
+                                        setState(() {
+                                          if (_phoneController.text.trim().isEmpty) {
+                                            _phoneError = "Phone number is required";
+                                          } else if (_phoneController.text.trim().length != 10) {
+                                            _phoneError = "Please enter a valid 10-digit number";
+                                          } else {
+                                            _phoneError = null; // Clear error
+
+                                            // Proceed to the OTP screen!
+                                            debugPrint("Continue clicked with number: ${_phoneController.text}");
+                                            context.push('/login-otp', extra: _phoneController.text);
+                                          }
+                                        });
                                       },
                                       child: Row(
                                         mainAxisAlignment:
