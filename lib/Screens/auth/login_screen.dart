@@ -3,12 +3,57 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_auth/smart_auth.dart';
 
 import '../../theme/app_theme.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+
+  final TextEditingController _phoneController = TextEditingController();
+  final SmartAuth _smartAuth = SmartAuth.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    // 4. Trigger the hint popup when the screen opens
+    _requestPhoneNumberHint();
+  }
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    super.dispose();
+  }
+
+  // 5. The function to request the phone numbers
+  Future<void> _requestPhoneNumberHint() async {
+    try {
+      final res = await _smartAuth.requestPhoneNumberHint();
+
+      if (res.hasData) {
+        String? phone = res.data;
+
+        if (phone != null) {
+          // Remove country code if you only want the 10 digits
+          if (phone.startsWith('+91')) {
+            phone = phone.replaceFirst('+91', '');
+          }
+          setState(() {
+            _phoneController.text = phone ?? "";
+          });
+        }
+      }
+    } catch (e) {
+      debugPrint("Failed to get phone number hint: $e");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -68,7 +113,7 @@ class LoginScreen extends StatelessWidget {
                           ShaderMask(
                             shaderCallback: (Rect bounds) {
                               return LinearGradient(
-                                colors: [Color(0xFFB9FF7F), AppTheme.accent],
+                                colors: [AppTheme.secondary, AppTheme.accent],
                                 begin: Alignment.centerRight,
                                 end: Alignment.centerLeft,
                               ).createShader(bounds);
@@ -124,10 +169,20 @@ class LoginScreen extends StatelessWidget {
 
                                 TextField(
                                   style: TextStyle(color: AppTheme.text1),
+                                  // onTap: () {
+                                  //   if (_phoneController.text.isEmpty) {
+                                  //     _requestPhoneNumberHint();
+                                  //   }
+                                  // },
+                                  controller: _phoneController,
+                                  keyboardType: TextInputType.phone,
+                                  maxLength: 10,
+                                  autofillHints: const [AutofillHints.telephoneNumber],
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: AppTheme.inputBackground,
                                     hintText: "9952543212",
+                                    counterText: "",
                                     hintStyle: TextStyle(
                                       color: AppTheme.text1.withValues(
                                         alpha: 0.3,
@@ -220,6 +275,7 @@ class LoginScreen extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         debugPrint("continue clicked");
+                                        context.push('/login-otp', extra: _phoneController.text);
                                       },
                                       child: Row(
                                         mainAxisAlignment:
