@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -346,6 +344,7 @@ class _OTPScreenState extends State<OTPScreen> {
                                 ),
                                 onPressed: () {
                                   debugPrint("Verify clicked with code: ${_otpController.text}");
+                                  context.pushReplacement('/home');
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
