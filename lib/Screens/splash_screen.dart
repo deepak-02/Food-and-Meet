@@ -202,8 +202,8 @@ class SplashScreen extends StatelessWidget {
                       height: 56.h,
                       child: OutlinedButton(
                         onPressed: () {
-                          // context.push('/login');
-                          context.push('/home');
+                          context.push('/login');
+                          // context.push('/home');
                         },
                         style: OutlinedButton.styleFrom(
                           // Transparent background
